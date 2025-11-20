@@ -1,0 +1,3 @@
+module HibitsBot
+
+go 1.24.0
