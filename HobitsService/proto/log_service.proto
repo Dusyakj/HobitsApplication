@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package hobbits.api.v1;
+
+import "common.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "HobitsService/gen/go/hobbits/api/v1";
+
+// LogService для логирования выполнений привычек
+service LogService {
+  // LogCompletion логирует выполнение привычки
+  rpc LogCompletion(LogCompletionRequest) returns (LogCompletionResponse);
+
+  // GetHabitLogs получает логи привычки
+  rpc GetHabitLogs(GetHabitLogsRequest) returns (GetHabitLogsResponse);
+
+  // GetHabitLogsByDateRange получает логи за период
+  rpc GetHabitLogsByDateRange(GetHabitLogsByDateRangeRequest) returns (GetHabitLogsByDateRangeResponse);
+
+  // GetCompletionRate получает процент выполнения за период
+  rpc GetCompletionRate(GetCompletionRateRequest) returns (GetCompletionRateResponse);
+}
+
+message LogCompletionRequest {
+  int32 habit_id = 1;
+  int32 user_id = 2;
+  string comment = 3; // optional comment
+}
+
+message LogCompletionResponse {
+  HabitLog log = 1;
+  bool is_first_completion = 2;
+}
+
+message GetHabitLogsRequest {
+  int32 habit_id = 1;
+}
+
+message GetHabitLogsResponse {
+  repeated HabitLog logs = 1;
+}
+
+message GetHabitLogsByDateRangeRequest {
+  int32 habit_id = 1;
+  google.protobuf.Timestamp from_date = 2;
+  google.protobuf.Timestamp to_date = 3;
+}
+
+message GetHabitLogsByDateRangeResponse {
+  repeated HabitLog logs = 1;
+}
+
+message GetCompletionRateRequest {
+  int32 habit_id = 1;
+  google.protobuf.Timestamp from_date = 2;
+  google.protobuf.Timestamp to_date = 3;
+}
+
+message GetCompletionRateResponse {
+  float rate = 1; // percentage 0-100
+  int32 completed = 2;
+  int32 scheduled = 3;
+}

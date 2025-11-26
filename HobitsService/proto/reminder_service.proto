@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package hobbits.api.v1;
+
+import "common.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "HobitsService/gen/go/hobbits/api/v1";
+
+// ReminderService для управления напоминаниями
+service ReminderService {
+  // GenerateRemindersForToday генерирует напоминания на сегодня
+  rpc GenerateRemindersForToday(GenerateRemindersForTodayRequest) returns (GenerateRemindersForTodayResponse);
+
+  // GetRemindersForDate получает напоминания на дату
+  rpc GetRemindersForDate(GetRemindersForDateRequest) returns (GetRemindersForDateResponse);
+
+  // GetUserRemindersForDate получает напоминания пользователя на дату
+  rpc GetUserRemindersForDate(GetUserRemindersForDateRequest) returns (GetUserRemindersForDateResponse);
+
+  // MarkReminderAsCompleted отмечает напоминание как выполненное
+  rpc MarkReminderAsCompleted(MarkReminderAsCompletedRequest) returns (MarkReminderAsCompletedResponse);
+
+  // MarkReminderAsIncomplete отмечает напоминание как невыполненное
+  rpc MarkReminderAsIncomplete(MarkReminderAsIncompleteRequest) returns (MarkReminderAsIncompleteResponse);
+}
+
+message GenerateRemindersForTodayRequest {
+  int32 user_id = 1;
+}
+
+message GenerateRemindersForTodayResponse {
+  repeated HabitReminder reminders = 1;
+  int32 count = 2;
+}
+
+message GetRemindersForDateRequest {
+  google.protobuf.Timestamp date = 1;
+}
+
+message GetRemindersForDateResponse {
+  repeated HabitReminder reminders = 1;
+}
+
+message GetUserRemindersForDateRequest {
+  int32 user_id = 1;
+  google.protobuf.Timestamp date = 2;
+}
+
+message GetUserRemindersForDateResponse {
+  repeated HabitReminder reminders = 1;
+  int32 completed_count = 2;
+  int32 total_count = 3;
+}
+
+message MarkReminderAsCompletedRequest {
+  int32 reminder_id = 1;
+}
+
+message MarkReminderAsCompletedResponse {
+  HabitReminder reminder = 1;
+}
+
+message MarkReminderAsIncompleteRequest {
+  int32 reminder_id = 1;
+}
+
+message MarkReminderAsIncompleteResponse {
+  HabitReminder reminder = 1;
+}

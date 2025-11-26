@@ -1,0 +1,64 @@
+
+version: '3.8'
+
+services:
+  hobitsbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hobitsbot
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - GRPC_SERVER_ADDR=${GRPC_SERVER_ADDR:-hobits-service:50051}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    depends_on:
+      - hobits-service
+    restart: unless-stopped
+    networks:
+      - hobits-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  hobits-service:
+    image: hobits-service:latest
+    container_name: hobits-service
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-postgres://user:password@postgres:5432/hobits}
+      - GRPC_PORT=50051
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - hobits-network
+    ports:
+      - "50051:50051"
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: hobits-db
+    environment:
+      - POSTGRES_USER=${DB_USER:-hobits}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-password}
+      - POSTGRES_DB=${DB_NAME:-hobits}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - hobits-network
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-hobits}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+
+networks:
+  hobits-network:
+    driver: bridge

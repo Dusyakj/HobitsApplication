@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package hobbits.api.v1;
+
+import "common.proto";
+
+option go_package = "HobitsService/gen/go/hobbits/api/v1";
+
+// UserService для управления пользователями
+service UserService {
+  // GetOrCreateUser получает или создает пользователя по Telegram ID
+  rpc GetOrCreateUser(GetOrCreateUserRequest) returns (GetOrCreateUserResponse);
+
+  // GetUser получает пользователя по ID
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+
+  // UpdateUser обновляет информацию пользователя
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+}
+
+message GetOrCreateUserRequest {
+  int64 telegram_id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string username = 4;
+  string language_code = 5;
+}
+
+message GetOrCreateUserResponse {
+  User user = 1;
+  bool created = 2; // true если пользователь только создан
+}
+
+message GetUserRequest {
+  int32 id = 1;
+}
+
+message GetUserResponse {
+  User user = 1;
+}
+
+message UpdateUserRequest {
+  int32 id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string username = 4;
+  string language_code = 5;
+}
+
+message UpdateUserResponse {
+  User user = 1;
+}

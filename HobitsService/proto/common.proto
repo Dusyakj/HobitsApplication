@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package hobbits.api.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "HobitsService/gen/go/hobbits/api/v1";
+
+// User представляет пользователя
+message User {
+  int32 id = 1;
+  int64 telegram_id = 2;
+  string first_name = 3;
+  string last_name = 4;
+  string username = 5;
+  string language_code = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+}
+
+// Habit представляет привычку
+message Habit {
+  int32 id = 1;
+  int32 user_id = 2;
+  string name = 3;
+  string description = 4;
+  string goal = 5;
+  string frequency = 6; // "daily", "weekly", "monthly"
+  string weekly_days = 7; // "1,3,5" for weekly
+  string monthly_days = 8; // "1,15,28" for monthly
+  int32 current_streak = 9;
+  int32 best_streak = 10;
+  google.protobuf.Timestamp last_completed_date = 11;
+  google.protobuf.Timestamp last_checked_date = 12;
+  bool is_active = 13;
+  bool is_completed = 14;
+  google.protobuf.Timestamp created_at = 15;
+  google.protobuf.Timestamp updated_at = 16;
+  google.protobuf.Timestamp completed_at = 17;
+}
+
+// HabitLog представляет логирование выполнения привычки
+message HabitLog {
+  int32 id = 1;
+  int32 habit_id = 2;
+  int32 user_id = 3;
+  string comment = 4;
+  string logged_date = 5; // ISO 8601 date
+  google.protobuf.Timestamp logged_at = 6;
+}
+
+// HabitReminder представляет напоминание о привычке
+message HabitReminder {
+  int32 id = 1;
+  int32 habit_id = 2;
+  int32 user_id = 3;
+  google.protobuf.Timestamp reminder_date = 4;
+  bool is_completed = 5;
+  google.protobuf.Timestamp sent_at = 6;
+}
+
+// CompletionStats представляет статистику выполнения
+message CompletionStats {
+  int32 habit_id = 1;
+  int32 completed_count = 2;
+  int32 total_scheduled = 3;
+  float completion_rate = 4;
+  string period = 5; // "day", "week", "month"
+}
+
+// Error представляет ошибку ответа
+message ErrorResponse {
+  int32 code = 1;
+  string message = 2;
+  string details = 3;
+}

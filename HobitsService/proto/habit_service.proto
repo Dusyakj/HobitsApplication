@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package hobbits.api.v1;
+
+import "common.proto";
+
+option go_package = "HobitsService/gen/go/hobbits/api/v1";
+
+// HabitService для управления привычками
+service HabitService {
+  // CreateHabit создает новую привычку
+  rpc CreateHabit(CreateHabitRequest) returns (CreateHabitResponse);
+
+  // GetHabit получает привычку по ID
+  rpc GetHabit(GetHabitRequest) returns (GetHabitResponse);
+
+  // GetUserHabits получает все привычки пользователя
+  rpc GetUserHabits(GetUserHabitsRequest) returns (GetUserHabitsResponse);
+
+  // GetActiveHabits получает активные привычки пользователя
+  rpc GetActiveHabits(GetActiveHabitsRequest) returns (GetActiveHabitsResponse);
+
+  // UpdateHabit обновляет привычку
+  rpc UpdateHabit(UpdateHabitRequest) returns (UpdateHabitResponse);
+
+  // DeleteHabit удаляет привычку (деактивирует)
+  rpc DeleteHabit(DeleteHabitRequest) returns (DeleteHabitResponse);
+
+  // SetWeeklyDays устанавливает дни недели для еженедельной привычки
+  rpc SetWeeklyDays(SetWeeklyDaysRequest) returns (SetWeeklyDaysResponse);
+
+  // SetMonthlyDays устанавливает дни месяца для ежемесячной привычки
+  rpc SetMonthlyDays(SetMonthlyDaysRequest) returns (SetMonthlyDaysResponse);
+
+  // IsScheduledToday проверяет, нужно ли подтверждение сегодня
+  rpc IsScheduledToday(IsScheduledTodayRequest) returns (IsScheduledTodayResponse);
+}
+
+message CreateHabitRequest {
+  int32 user_id = 1;
+  string name = 2;
+  string frequency = 3; // "daily", "weekly", "monthly"
+  string description = 4;
+  string goal = 5;
+  string weekly_days = 6; // for weekly: "1,3,5"
+  string monthly_days = 7; // for monthly: "1,15,28"
+}
+
+message CreateHabitResponse {
+  Habit habit = 1;
+}
+
+message GetHabitRequest {
+  int32 id = 1;
+}
+
+message GetHabitResponse {
+  Habit habit = 1;
+}
+
+message GetUserHabitsRequest {
+  int32 user_id = 1;
+}
+
+message GetUserHabitsResponse {
+  repeated Habit habits = 1;
+}
+
+message GetActiveHabitsRequest {
+  int32 user_id = 1;
+}
+
+message GetActiveHabitsResponse {
+  repeated Habit habits = 1;
+}
+
+message UpdateHabitRequest {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+  string goal = 4;
+}
+
+message UpdateHabitResponse {
+  Habit habit = 1;
+}
+
+message DeleteHabitRequest {
+  int32 id = 1;
+}
+
+message DeleteHabitResponse {
+  bool success = 1;
+}
+
+message SetWeeklyDaysRequest {
+  int32 habit_id = 1;
+  repeated int32 days = 2; // 1-7, where 1=Monday, 7=Sunday
+}
+
+message SetWeeklyDaysResponse {
+  Habit habit = 1;
+}
+
+message SetMonthlyDaysRequest {
+  int32 habit_id = 1;
+  repeated int32 days = 2; // 1-28
+}
+
+message SetMonthlyDaysResponse {
+  Habit habit = 1;
+}
+
+message IsScheduledTodayRequest {
+  int32 habit_id = 1;
+}
+
+message IsScheduledTodayResponse {
+  bool scheduled = 1;
+}

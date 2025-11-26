@@ -31,3 +31,57 @@ go.work
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build artifacts
+bin/
+dist/
+build/
+
+# HobitsBot
+HobitsBot/hobitsbot
+HobitsBot/.env
+
+# HobitsService
+HobitsService/server
+HobitsService/.env
+HobitsService/logs/
+HobitsService/backups/
+
+# Database
+*.sql
+*.sql.gz
+postgres_data/
+
+# Docker
+docker-compose.override.yml
+
+# Backups
+backups/
+*.bak
+*.backup
+
+# Temporary files
+*.tmp
+*.temp
+
+# Coverage reports
+coverage.txt
+*.cover
+
+# Logs
+*.log
+logs/
+
+# Certificates
+*.pem
+*.key
+*.crt
+
+# Secrets
+secrets/
+.secrets
