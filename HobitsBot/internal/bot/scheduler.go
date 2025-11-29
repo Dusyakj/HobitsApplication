@@ -27,12 +27,12 @@ func NewScheduler(
 	logger Logger,
 ) *Scheduler {
 	return &Scheduler{
-		bot:             bot,
-		reminderService: reminderService,
-		userService:     userService,
-		logger:          logger,
-		stopChan:        make(chan struct{}),
-		notificationTime: parseNotificationTime("09:00"), // 9:00 AM
+		bot:              bot,
+		reminderService:  reminderService,
+		userService:      userService,
+		logger:           logger,
+		stopChan:         make(chan struct{}),
+		notificationTime: parseNotificationTime("21:00"), // 9:00 PM (21:00)
 	}
 }
 
@@ -95,13 +95,13 @@ func (s *Scheduler) runSchedule() {
 // checkAndSendNotifications проверяет время и отправляет уведомления
 func (s *Scheduler) checkAndSendNotifications() {
 	now := time.Now()
-	targetHour := 9
+	targetHour := 21 // 9 PM
 	targetMinute := 0
 
 	// Проверяем, наступило ли время отправки уведомлений
-	// Даём окно в 1 минуту (9:00-9:01)
+	// Даём окно в 1 минуту (21:00-21:01)
 	if now.Hour() == targetHour && now.Minute() == targetMinute {
-		s.logger.Info("Time to send 9:00 AM notifications")
+		s.logger.Info("Time to send 9:00 PM (21:00) notifications")
 		s.sendUnconfirmedHabitsNotification()
 	}
 }
@@ -162,7 +162,7 @@ func (s *Scheduler) sendNotificationToUser(userID int64, incompleteCount int) {
 	if err != nil {
 		s.logger.Error("Failed to send notification to user %d: %v", userID, err)
 	} else {
-		s.logger.Info("Sent 9:00 AM notification to user %d (%d incomplete reminders)", userID, incompleteCount)
+		s.logger.Info("Sent 9:00 PM notification to user %d (%d incomplete reminders)", userID, incompleteCount)
 	}
 }
 

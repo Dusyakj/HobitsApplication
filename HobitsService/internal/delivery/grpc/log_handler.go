@@ -2,15 +2,12 @@ package grpc
 
 import (
 	"context"
-	"strconv"
-
 	"go.uber.org/zap"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
 	api "HobitsService/gen/go/HobitsService/gen/go/hobbits/api/v1"
 	"HobitsService/internal/logger"
-	"HobitsService/internal/metrics"
 	"HobitsService/internal/service"
 )
 
@@ -36,12 +33,6 @@ func (s *LogServiceServer) LogCompletion(ctx context.Context, req *api.LogComple
 		logger.Error("failed to log completion", zap.Error(err))
 		return nil, status.Errorf(codes.Internal, "failed to log completion: %v", err)
 	}
-
-	// Метрики
-	metrics.LoggingsCreated.WithLabelValues(
-		strconv.Itoa(int(req.HabitId)),
-		strconv.Itoa(int(req.UserId)),
-	).Inc()
 
 	return &api.LogCompletionResponse{
 		Log:               habitLogToProto(log),

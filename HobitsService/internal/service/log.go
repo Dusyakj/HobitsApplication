@@ -4,11 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"strconv"
 	"time"
 
 	"HobitsService/internal/domain"
-	"HobitsService/internal/metrics"
 	"HobitsService/internal/repository"
 )
 
@@ -100,20 +98,6 @@ func (s *LogService) updateStreak(ctx context.Context, habit *domain.Habit) erro
 		habit.UpdateLastCompletedDate(todayDate)
 		_, err := s.habitRepo.UpdateHabit(ctx, habit)
 
-		// Записываем метрики
-		if err == nil {
-			metrics.CurrentStreak.WithLabelValues(
-				strconv.Itoa(habit.ID),
-				strconv.Itoa(habit.UserID),
-				habit.Name,
-			).Set(float64(habit.CurrentStreak))
-
-			metrics.BestStreak.WithLabelValues(
-				strconv.Itoa(habit.ID),
-				strconv.Itoa(habit.UserID),
-				habit.Name,
-			).Set(float64(habit.BestStreak))
-		}
 		return err
 	}
 
@@ -135,20 +119,6 @@ func (s *LogService) updateStreak(ctx context.Context, habit *domain.Habit) erro
 	habit.UpdateLastCompletedDate(todayDate)
 	_, err := s.habitRepo.UpdateHabit(ctx, habit)
 
-	// Записываем метрики
-	if err == nil {
-		metrics.CurrentStreak.WithLabelValues(
-			strconv.Itoa(habit.ID),
-			strconv.Itoa(habit.UserID),
-			habit.Name,
-		).Set(float64(habit.CurrentStreak))
-
-		metrics.BestStreak.WithLabelValues(
-			strconv.Itoa(habit.ID),
-			strconv.Itoa(habit.UserID),
-			habit.Name,
-		).Set(float64(habit.BestStreak))
-	}
 	return err
 }
 

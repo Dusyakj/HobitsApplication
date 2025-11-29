@@ -23,8 +23,11 @@ service HabitService {
   // UpdateHabit обновляет привычку
   rpc UpdateHabit(UpdateHabitRequest) returns (UpdateHabitResponse);
 
-  // DeleteHabit удаляет привычку (деактивирует)
-  rpc DeleteHabit(DeleteHabitRequest) returns (DeleteHabitResponse);
+  // DeactivateHabit деактивирует привычку
+  rpc DeactivateHabit(DeactivateHabitRequest) returns (DeactivateHabitResponse);
+
+  // ActivateHabit активирует привычку
+  rpc ActivateHabit(ActivateHabitRequest) returns (ActivateHabitResponse);
 
   // SetWeeklyDays устанавливает дни недели для еженедельной привычки
   rpc SetWeeklyDays(SetWeeklyDaysRequest) returns (SetWeeklyDaysResponse);
@@ -85,11 +88,19 @@ message UpdateHabitResponse {
   Habit habit = 1;
 }
 
-message DeleteHabitRequest {
+message DeactivateHabitRequest {
   int32 id = 1;
 }
 
-message DeleteHabitResponse {
+message DeactivateHabitResponse {
+  bool success = 1;
+}
+
+message ActivateHabitRequest {
+  int32 id = 1;
+}
+
+message ActivateHabitResponse {
   bool success = 1;
 }
 

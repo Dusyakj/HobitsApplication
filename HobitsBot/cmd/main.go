@@ -17,17 +17,14 @@ import (
 )
 
 func main() {
-	// Загружаем конфигурацию
 	cfg, err := config.Load()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to load config: %v\n", err)
 		os.Exit(1)
 	}
 
-	// Инициализируем логгер
 	log := logger.New(cfg.LogLevel)
 
-	// Проверяем наличие токена бота
 	if cfg.TelegramBotToken == "" {
 		log.Error("TELEGRAM_BOT_TOKEN not set")
 		os.Exit(1)
@@ -35,7 +32,6 @@ func main() {
 
 	log.Info("HobitsBot starting...")
 
-	// Подключаемся к gRPC серверу
 	grpcClient, err := grpc.New(cfg.GRPCServerAddr)
 	if err != nil {
 		log.Error("Failed to connect to gRPC server: %v", err)
@@ -45,7 +41,6 @@ func main() {
 
 	log.Info("Connected to gRPC server at %s", cfg.GRPCServerAddr)
 
-	// Создаем бота
 	botInstance, err := bot.New(cfg.TelegramBotToken, grpcClient.GetConn(), log)
 	if err != nil {
 		log.Error("Failed to create bot: %v", err)
@@ -155,45 +150,47 @@ func handleMessage(
 			botInstance.SendMessage(message.Chat.ID, "Не понимаю. Используйте /help для справки.")
 		}
 	} else {
-		// Обрабатываем нажатия кнопок главного меню
-		handleMenuButton(message, botInstance, handlers, log)
+		// Обрабатываем нажатия кнопок главного меню (ЗАКОММЕНТИРОВАНО - используются inline кнопки)
+		// handleMenuButton(message, botInstance, handlers, log)
+		botInstance.SendMessage(message.Chat.ID, "Используйте inline кнопки под сообщениями для управления ботом.")
 	}
 }
 
-func handleMenuButton(
-	message *tgbotapi.Message,
-	botInstance *bot.Bot,
-	handlers *bot.BotHandlers,
-	log *logger.Logger,
-) {
-	userID := message.From.ID
-	chatID := message.Chat.ID
-	text := message.Text
-
-	switch text {
-	case "📋 Мои привычки":
-		log.Debug("User %d clicked 'Мои привычки' button", userID)
-		handlers.HandleGetHabits(message)
-	case "➕ Добавить":
-		log.Debug("User %d clicked 'Добавить' button", userID)
-		handlers.HandleAddHabit(message)
-	case "🔔 Напоминания":
-		log.Debug("User %d clicked 'Напоминания' button", userID)
-		handlers.HandleGetToday(message)
-	case "📊 Статистика":
-		log.Debug("User %d clicked 'Статистика' button", userID)
-		handlers.HandleGetStats(message)
-	case "⚙️ Настройки":
-		log.Debug("User %d clicked 'Настройки' button", userID)
-		botInstance.SendMessage(chatID, "⚙️ Настройки находятся в разработке")
-	case "❓ Помощь":
-		log.Debug("User %d clicked 'Помощь' button", userID)
-		showHelp(botInstance, chatID)
-	default:
-		log.Debug("User %d sent text: %s", userID, text)
-		botInstance.SendMessage(chatID, "Не понимаю эту команду. Используйте кнопки меню или /help для справки.")
-	}
-}
+// handleMenuButton обрабатывает нажатия reply кнопок (ЗАКОММЕНТИРОВАНО - используются inline кнопки)
+// func handleMenuButton(
+// 	message *tgbotapi.Message,
+// 	botInstance *bot.Bot,
+// 	handlers *bot.BotHandlers,
+// 	log *logger.Logger,
+// ) {
+// 	userID := message.From.ID
+// 	chatID := message.Chat.ID
+// 	text := message.Text
+//
+// 	switch text {
+// 	case "📋 Мои привычки":
+// 		log.Debug("User %d clicked 'Мои привычки' button", userID)
+// 		handlers.HandleGetHabits(message)
+// 	case "➕ Добавить":
+// 		log.Debug("User %d clicked 'Добавить' button", userID)
+// 		handlers.HandleAddHabit(message)
+// 	case "🔔 Напоминания":
+// 		log.Debug("User %d clicked 'Напоминания' button", userID)
+// 		handlers.HandleGetToday(message)
+// 	case "📊 Статистика":
+// 		log.Debug("User %d clicked 'Статистика' button", userID)
+// 		handlers.HandleGetStats(message)
+// 	case "⚙️ Настройки":
+// 		log.Debug("User %d clicked 'Настройки' button", userID)
+// 		botInstance.SendMessage(chatID, "⚙️ Настройки находятся в разработке")
+// 	case "❓ Помощь":
+// 		log.Debug("User %d clicked 'Помощь' button", userID)
+// 		showHelp(botInstance, chatID)
+// 	default:
+// 		log.Debug("User %d sent text: %s", userID, text)
+// 		botInstance.SendMessage(chatID, "Не понимаю эту команду. Используйте кнопки меню или /help для справки.")
+// 	}
+// }
 
 func handleCommand(
 	message *tgbotapi.Message,

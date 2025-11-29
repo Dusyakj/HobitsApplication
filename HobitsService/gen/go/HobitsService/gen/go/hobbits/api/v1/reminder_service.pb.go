@@ -206,6 +206,94 @@ func (x *GetRemindersForDateResponse) GetReminders() []*HabitReminder {
 	return nil
 }
 
+type CreateInitialReminderRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	HabitId       int32                  `protobuf:"varint,1,opt,name=habit_id,json=habitId,proto3" json:"habit_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateInitialReminderRequest) Reset() {
+	*x = CreateInitialReminderRequest{}
+	mi := &file_reminder_service_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateInitialReminderRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateInitialReminderRequest) ProtoMessage() {}
+
+func (x *CreateInitialReminderRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_reminder_service_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateInitialReminderRequest.ProtoReflect.Descriptor instead.
+func (*CreateInitialReminderRequest) Descriptor() ([]byte, []int) {
+	return file_reminder_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *CreateInitialReminderRequest) GetHabitId() int32 {
+	if x != nil {
+		return x.HabitId
+	}
+	return 0
+}
+
+type CreateInitialReminderResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Reminder      *HabitReminder         `protobuf:"bytes,1,opt,name=reminder,proto3" json:"reminder,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateInitialReminderResponse) Reset() {
+	*x = CreateInitialReminderResponse{}
+	mi := &file_reminder_service_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateInitialReminderResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateInitialReminderResponse) ProtoMessage() {}
+
+func (x *CreateInitialReminderResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_reminder_service_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateInitialReminderResponse.ProtoReflect.Descriptor instead.
+func (*CreateInitialReminderResponse) Descriptor() ([]byte, []int) {
+	return file_reminder_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *CreateInitialReminderResponse) GetReminder() *HabitReminder {
+	if x != nil {
+		return x.Reminder
+	}
+	return nil
+}
+
 type GetUserRemindersForDateRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
@@ -216,7 +304,7 @@ type GetUserRemindersForDateRequest struct {
 
 func (x *GetUserRemindersForDateRequest) Reset() {
 	*x = GetUserRemindersForDateRequest{}
-	mi := &file_reminder_service_proto_msgTypes[4]
+	mi := &file_reminder_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -228,7 +316,7 @@ func (x *GetUserRemindersForDateRequest) String() string {
 func (*GetUserRemindersForDateRequest) ProtoMessage() {}
 
 func (x *GetUserRemindersForDateRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_reminder_service_proto_msgTypes[4]
+	mi := &file_reminder_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -241,7 +329,7 @@ func (x *GetUserRemindersForDateRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserRemindersForDateRequest.ProtoReflect.Descriptor instead.
 func (*GetUserRemindersForDateRequest) Descriptor() ([]byte, []int) {
-	return file_reminder_service_proto_rawDescGZIP(), []int{4}
+	return file_reminder_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *GetUserRemindersForDateRequest) GetUserId() int32 {
@@ -269,7 +357,7 @@ type GetUserRemindersForDateResponse struct {
 
 func (x *GetUserRemindersForDateResponse) Reset() {
 	*x = GetUserRemindersForDateResponse{}
-	mi := &file_reminder_service_proto_msgTypes[5]
+	mi := &file_reminder_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -281,7 +369,7 @@ func (x *GetUserRemindersForDateResponse) String() string {
 func (*GetUserRemindersForDateResponse) ProtoMessage() {}
 
 func (x *GetUserRemindersForDateResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_reminder_service_proto_msgTypes[5]
+	mi := &file_reminder_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -294,7 +382,7 @@ func (x *GetUserRemindersForDateResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserRemindersForDateResponse.ProtoReflect.Descriptor instead.
 func (*GetUserRemindersForDateResponse) Descriptor() ([]byte, []int) {
-	return file_reminder_service_proto_rawDescGZIP(), []int{5}
+	return file_reminder_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *GetUserRemindersForDateResponse) GetReminders() []*HabitReminder {
@@ -327,7 +415,7 @@ type MarkReminderAsCompletedRequest struct {
 
 func (x *MarkReminderAsCompletedRequest) Reset() {
 	*x = MarkReminderAsCompletedRequest{}
-	mi := &file_reminder_service_proto_msgTypes[6]
+	mi := &file_reminder_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -339,7 +427,7 @@ func (x *MarkReminderAsCompletedRequest) String() string {
 func (*MarkReminderAsCompletedRequest) ProtoMessage() {}
 
 func (x *MarkReminderAsCompletedRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_reminder_service_proto_msgTypes[6]
+	mi := &file_reminder_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -352,7 +440,7 @@ func (x *MarkReminderAsCompletedRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MarkReminderAsCompletedRequest.ProtoReflect.Descriptor instead.
 func (*MarkReminderAsCompletedRequest) Descriptor() ([]byte, []int) {
-	return file_reminder_service_proto_rawDescGZIP(), []int{6}
+	return file_reminder_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *MarkReminderAsCompletedRequest) GetReminderId() int32 {
@@ -371,7 +459,7 @@ type MarkReminderAsCompletedResponse struct {
 
 func (x *MarkReminderAsCompletedResponse) Reset() {
 	*x = MarkReminderAsCompletedResponse{}
-	mi := &file_reminder_service_proto_msgTypes[7]
+	mi := &file_reminder_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -383,7 +471,7 @@ func (x *MarkReminderAsCompletedResponse) String() string {
 func (*MarkReminderAsCompletedResponse) ProtoMessage() {}
 
 func (x *MarkReminderAsCompletedResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_reminder_service_proto_msgTypes[7]
+	mi := &file_reminder_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -396,7 +484,7 @@ func (x *MarkReminderAsCompletedResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MarkReminderAsCompletedResponse.ProtoReflect.Descriptor instead.
 func (*MarkReminderAsCompletedResponse) Descriptor() ([]byte, []int) {
-	return file_reminder_service_proto_rawDescGZIP(), []int{7}
+	return file_reminder_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *MarkReminderAsCompletedResponse) GetReminder() *HabitReminder {
@@ -415,7 +503,7 @@ type MarkReminderAsIncompleteRequest struct {
 
 func (x *MarkReminderAsIncompleteRequest) Reset() {
 	*x = MarkReminderAsIncompleteRequest{}
-	mi := &file_reminder_service_proto_msgTypes[8]
+	mi := &file_reminder_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -427,7 +515,7 @@ func (x *MarkReminderAsIncompleteRequest) String() string {
 func (*MarkReminderAsIncompleteRequest) ProtoMessage() {}
 
 func (x *MarkReminderAsIncompleteRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_reminder_service_proto_msgTypes[8]
+	mi := &file_reminder_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -440,7 +528,7 @@ func (x *MarkReminderAsIncompleteRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MarkReminderAsIncompleteRequest.ProtoReflect.Descriptor instead.
 func (*MarkReminderAsIncompleteRequest) Descriptor() ([]byte, []int) {
-	return file_reminder_service_proto_rawDescGZIP(), []int{8}
+	return file_reminder_service_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *MarkReminderAsIncompleteRequest) GetReminderId() int32 {
@@ -459,7 +547,7 @@ type MarkReminderAsIncompleteResponse struct {
 
 func (x *MarkReminderAsIncompleteResponse) Reset() {
 	*x = MarkReminderAsIncompleteResponse{}
-	mi := &file_reminder_service_proto_msgTypes[9]
+	mi := &file_reminder_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -471,7 +559,7 @@ func (x *MarkReminderAsIncompleteResponse) String() string {
 func (*MarkReminderAsIncompleteResponse) ProtoMessage() {}
 
 func (x *MarkReminderAsIncompleteResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_reminder_service_proto_msgTypes[9]
+	mi := &file_reminder_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -484,7 +572,7 @@ func (x *MarkReminderAsIncompleteResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MarkReminderAsIncompleteResponse.ProtoReflect.Descriptor instead.
 func (*MarkReminderAsIncompleteResponse) Descriptor() ([]byte, []int) {
-	return file_reminder_service_proto_rawDescGZIP(), []int{9}
+	return file_reminder_service_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *MarkReminderAsIncompleteResponse) GetReminder() *HabitReminder {
@@ -507,7 +595,11 @@ const file_reminder_service_proto_rawDesc = "" +
 	"\x1aGetRemindersForDateRequest\x12.\n" +
 	"\x04date\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x04date\"Z\n" +
 	"\x1bGetRemindersForDateResponse\x12;\n" +
-	"\treminders\x18\x01 \x03(\v2\x1d.hobbits.api.v1.HabitReminderR\treminders\"i\n" +
+	"\treminders\x18\x01 \x03(\v2\x1d.hobbits.api.v1.HabitReminderR\treminders\"9\n" +
+	"\x1cCreateInitialReminderRequest\x12\x19\n" +
+	"\bhabit_id\x18\x01 \x01(\x05R\ahabitId\"Z\n" +
+	"\x1dCreateInitialReminderResponse\x129\n" +
+	"\breminder\x18\x01 \x01(\v2\x1d.hobbits.api.v1.HabitReminderR\breminder\"i\n" +
 	"\x1eGetUserRemindersForDateRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x05R\x06userId\x12.\n" +
 	"\x04date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x04date\"\xa8\x01\n" +
@@ -525,10 +617,11 @@ const file_reminder_service_proto_rawDesc = "" +
 	"\vreminder_id\x18\x01 \x01(\x05R\n" +
 	"reminderId\"]\n" +
 	" MarkReminderAsIncompleteResponse\x129\n" +
-	"\breminder\x18\x01 \x01(\v2\x1d.hobbits.api.v1.HabitReminderR\breminder2\xfb\x04\n" +
+	"\breminder\x18\x01 \x01(\v2\x1d.hobbits.api.v1.HabitReminderR\breminder2\xf1\x05\n" +
 	"\x0fReminderService\x12\x80\x01\n" +
 	"\x19GenerateRemindersForToday\x120.hobbits.api.v1.GenerateRemindersForTodayRequest\x1a1.hobbits.api.v1.GenerateRemindersForTodayResponse\x12n\n" +
-	"\x13GetRemindersForDate\x12*.hobbits.api.v1.GetRemindersForDateRequest\x1a+.hobbits.api.v1.GetRemindersForDateResponse\x12z\n" +
+	"\x13GetRemindersForDate\x12*.hobbits.api.v1.GetRemindersForDateRequest\x1a+.hobbits.api.v1.GetRemindersForDateResponse\x12t\n" +
+	"\x15CreateInitialReminder\x12,.hobbits.api.v1.CreateInitialReminderRequest\x1a-.hobbits.api.v1.CreateInitialReminderResponse\x12z\n" +
 	"\x17GetUserRemindersForDate\x12..hobbits.api.v1.GetUserRemindersForDateRequest\x1a/.hobbits.api.v1.GetUserRemindersForDateResponse\x12z\n" +
 	"\x17MarkReminderAsCompleted\x12..hobbits.api.v1.MarkReminderAsCompletedRequest\x1a/.hobbits.api.v1.MarkReminderAsCompletedResponse\x12}\n" +
 	"\x18MarkReminderAsIncomplete\x12/.hobbits.api.v1.MarkReminderAsIncompleteRequest\x1a0.hobbits.api.v1.MarkReminderAsIncompleteResponseB%Z#HobitsService/gen/go/hobbits/api/v1b\x06proto3"
@@ -545,44 +638,49 @@ func file_reminder_service_proto_rawDescGZIP() []byte {
 	return file_reminder_service_proto_rawDescData
 }
 
-var file_reminder_service_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_reminder_service_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_reminder_service_proto_goTypes = []any{
 	(*GenerateRemindersForTodayRequest)(nil),  // 0: hobbits.api.v1.GenerateRemindersForTodayRequest
 	(*GenerateRemindersForTodayResponse)(nil), // 1: hobbits.api.v1.GenerateRemindersForTodayResponse
 	(*GetRemindersForDateRequest)(nil),        // 2: hobbits.api.v1.GetRemindersForDateRequest
 	(*GetRemindersForDateResponse)(nil),       // 3: hobbits.api.v1.GetRemindersForDateResponse
-	(*GetUserRemindersForDateRequest)(nil),    // 4: hobbits.api.v1.GetUserRemindersForDateRequest
-	(*GetUserRemindersForDateResponse)(nil),   // 5: hobbits.api.v1.GetUserRemindersForDateResponse
-	(*MarkReminderAsCompletedRequest)(nil),    // 6: hobbits.api.v1.MarkReminderAsCompletedRequest
-	(*MarkReminderAsCompletedResponse)(nil),   // 7: hobbits.api.v1.MarkReminderAsCompletedResponse
-	(*MarkReminderAsIncompleteRequest)(nil),   // 8: hobbits.api.v1.MarkReminderAsIncompleteRequest
-	(*MarkReminderAsIncompleteResponse)(nil),  // 9: hobbits.api.v1.MarkReminderAsIncompleteResponse
-	(*HabitReminder)(nil),                     // 10: hobbits.api.v1.HabitReminder
-	(*timestamppb.Timestamp)(nil),             // 11: google.protobuf.Timestamp
+	(*CreateInitialReminderRequest)(nil),      // 4: hobbits.api.v1.CreateInitialReminderRequest
+	(*CreateInitialReminderResponse)(nil),     // 5: hobbits.api.v1.CreateInitialReminderResponse
+	(*GetUserRemindersForDateRequest)(nil),    // 6: hobbits.api.v1.GetUserRemindersForDateRequest
+	(*GetUserRemindersForDateResponse)(nil),   // 7: hobbits.api.v1.GetUserRemindersForDateResponse
+	(*MarkReminderAsCompletedRequest)(nil),    // 8: hobbits.api.v1.MarkReminderAsCompletedRequest
+	(*MarkReminderAsCompletedResponse)(nil),   // 9: hobbits.api.v1.MarkReminderAsCompletedResponse
+	(*MarkReminderAsIncompleteRequest)(nil),   // 10: hobbits.api.v1.MarkReminderAsIncompleteRequest
+	(*MarkReminderAsIncompleteResponse)(nil),  // 11: hobbits.api.v1.MarkReminderAsIncompleteResponse
+	(*HabitReminder)(nil),                     // 12: hobbits.api.v1.HabitReminder
+	(*timestamppb.Timestamp)(nil),             // 13: google.protobuf.Timestamp
 }
 var file_reminder_service_proto_depIdxs = []int32{
-	10, // 0: hobbits.api.v1.GenerateRemindersForTodayResponse.reminders:type_name -> hobbits.api.v1.HabitReminder
-	11, // 1: hobbits.api.v1.GetRemindersForDateRequest.date:type_name -> google.protobuf.Timestamp
-	10, // 2: hobbits.api.v1.GetRemindersForDateResponse.reminders:type_name -> hobbits.api.v1.HabitReminder
-	11, // 3: hobbits.api.v1.GetUserRemindersForDateRequest.date:type_name -> google.protobuf.Timestamp
-	10, // 4: hobbits.api.v1.GetUserRemindersForDateResponse.reminders:type_name -> hobbits.api.v1.HabitReminder
-	10, // 5: hobbits.api.v1.MarkReminderAsCompletedResponse.reminder:type_name -> hobbits.api.v1.HabitReminder
-	10, // 6: hobbits.api.v1.MarkReminderAsIncompleteResponse.reminder:type_name -> hobbits.api.v1.HabitReminder
-	0,  // 7: hobbits.api.v1.ReminderService.GenerateRemindersForToday:input_type -> hobbits.api.v1.GenerateRemindersForTodayRequest
-	2,  // 8: hobbits.api.v1.ReminderService.GetRemindersForDate:input_type -> hobbits.api.v1.GetRemindersForDateRequest
-	4,  // 9: hobbits.api.v1.ReminderService.GetUserRemindersForDate:input_type -> hobbits.api.v1.GetUserRemindersForDateRequest
-	6,  // 10: hobbits.api.v1.ReminderService.MarkReminderAsCompleted:input_type -> hobbits.api.v1.MarkReminderAsCompletedRequest
-	8,  // 11: hobbits.api.v1.ReminderService.MarkReminderAsIncomplete:input_type -> hobbits.api.v1.MarkReminderAsIncompleteRequest
-	1,  // 12: hobbits.api.v1.ReminderService.GenerateRemindersForToday:output_type -> hobbits.api.v1.GenerateRemindersForTodayResponse
-	3,  // 13: hobbits.api.v1.ReminderService.GetRemindersForDate:output_type -> hobbits.api.v1.GetRemindersForDateResponse
-	5,  // 14: hobbits.api.v1.ReminderService.GetUserRemindersForDate:output_type -> hobbits.api.v1.GetUserRemindersForDateResponse
-	7,  // 15: hobbits.api.v1.ReminderService.MarkReminderAsCompleted:output_type -> hobbits.api.v1.MarkReminderAsCompletedResponse
-	9,  // 16: hobbits.api.v1.ReminderService.MarkReminderAsIncomplete:output_type -> hobbits.api.v1.MarkReminderAsIncompleteResponse
-	12, // [12:17] is the sub-list for method output_type
-	7,  // [7:12] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	12, // 0: hobbits.api.v1.GenerateRemindersForTodayResponse.reminders:type_name -> hobbits.api.v1.HabitReminder
+	13, // 1: hobbits.api.v1.GetRemindersForDateRequest.date:type_name -> google.protobuf.Timestamp
+	12, // 2: hobbits.api.v1.GetRemindersForDateResponse.reminders:type_name -> hobbits.api.v1.HabitReminder
+	12, // 3: hobbits.api.v1.CreateInitialReminderResponse.reminder:type_name -> hobbits.api.v1.HabitReminder
+	13, // 4: hobbits.api.v1.GetUserRemindersForDateRequest.date:type_name -> google.protobuf.Timestamp
+	12, // 5: hobbits.api.v1.GetUserRemindersForDateResponse.reminders:type_name -> hobbits.api.v1.HabitReminder
+	12, // 6: hobbits.api.v1.MarkReminderAsCompletedResponse.reminder:type_name -> hobbits.api.v1.HabitReminder
+	12, // 7: hobbits.api.v1.MarkReminderAsIncompleteResponse.reminder:type_name -> hobbits.api.v1.HabitReminder
+	0,  // 8: hobbits.api.v1.ReminderService.GenerateRemindersForToday:input_type -> hobbits.api.v1.GenerateRemindersForTodayRequest
+	2,  // 9: hobbits.api.v1.ReminderService.GetRemindersForDate:input_type -> hobbits.api.v1.GetRemindersForDateRequest
+	4,  // 10: hobbits.api.v1.ReminderService.CreateInitialReminder:input_type -> hobbits.api.v1.CreateInitialReminderRequest
+	6,  // 11: hobbits.api.v1.ReminderService.GetUserRemindersForDate:input_type -> hobbits.api.v1.GetUserRemindersForDateRequest
+	8,  // 12: hobbits.api.v1.ReminderService.MarkReminderAsCompleted:input_type -> hobbits.api.v1.MarkReminderAsCompletedRequest
+	10, // 13: hobbits.api.v1.ReminderService.MarkReminderAsIncomplete:input_type -> hobbits.api.v1.MarkReminderAsIncompleteRequest
+	1,  // 14: hobbits.api.v1.ReminderService.GenerateRemindersForToday:output_type -> hobbits.api.v1.GenerateRemindersForTodayResponse
+	3,  // 15: hobbits.api.v1.ReminderService.GetRemindersForDate:output_type -> hobbits.api.v1.GetRemindersForDateResponse
+	5,  // 16: hobbits.api.v1.ReminderService.CreateInitialReminder:output_type -> hobbits.api.v1.CreateInitialReminderResponse
+	7,  // 17: hobbits.api.v1.ReminderService.GetUserRemindersForDate:output_type -> hobbits.api.v1.GetUserRemindersForDateResponse
+	9,  // 18: hobbits.api.v1.ReminderService.MarkReminderAsCompleted:output_type -> hobbits.api.v1.MarkReminderAsCompletedResponse
+	11, // 19: hobbits.api.v1.ReminderService.MarkReminderAsIncomplete:output_type -> hobbits.api.v1.MarkReminderAsIncompleteResponse
+	14, // [14:20] is the sub-list for method output_type
+	8,  // [8:14] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_reminder_service_proto_init() }
@@ -597,7 +695,7 @@ func file_reminder_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_reminder_service_proto_rawDesc), len(file_reminder_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

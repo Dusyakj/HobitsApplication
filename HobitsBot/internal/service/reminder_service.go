@@ -139,6 +139,24 @@ func (s *ReminderService) MarkReminderAsIncomplete(
 	return s.pbReminderToResponse(resp.Reminder), nil
 }
 
+// CreateInitialReminder создает первое напоминание для привычки
+func (s *ReminderService) CreateInitialReminder(
+	ctx context.Context,
+	habitID int,
+) (*ReminderResponse, error) {
+	req := &pb.CreateInitialReminderRequest{
+		HabitId: int32(habitID),
+	}
+
+	resp, err := s.client.CreateInitialReminder(ctx, req)
+	if err != nil {
+		s.logger.Error("failed to create initial reminder: %v", err)
+		return nil, fmt.Errorf("не удалось создать первое напоминание: %w", err)
+	}
+
+	return s.pbReminderToResponse(resp.Reminder), nil
+}
+
 // pbReminderToResponse преобразует protobuf напоминание в ответ
 func (s *ReminderService) pbReminderToResponse(pb *pb.HabitReminder) *ReminderResponse {
 	reminderDate := time.Now()

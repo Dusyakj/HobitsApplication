@@ -85,3 +85,7 @@ logs/
 # Secrets
 secrets/
 .secrets
+
+*nul
+
+.exe

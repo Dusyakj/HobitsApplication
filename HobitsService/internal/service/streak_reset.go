@@ -3,11 +3,9 @@ package service
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"time"
 
 	"HobitsService/internal/domain"
-	"HobitsService/internal/metrics"
 	"HobitsService/internal/repository"
 )
 
@@ -54,6 +52,16 @@ func (s *StreakResetService) CheckAndQueueStreakResets(ctx context.Context) erro
 	// В реальной реализации нужно было бы получить все активные привычки с последней датой проверки
 	// и для каждой проверить, есть ли пропуски
 
+	return nil
+}
+
+// QueueStreakReset добавляет привычку в очередь на сброс стрика
+func (s *StreakResetService) QueueStreakReset(ctx context.Context, habitID, userID int, resetDate time.Time) error {
+	queueEntry := domain.NewStreakResetQueue(habitID, userID, resetDate)
+	_, err := s.queueRepo.CreateQueueEntry(ctx, queueEntry)
+	if err != nil {
+		return fmt.Errorf("failed to create queue entry: %w", err)
+	}
 	return nil
 }
 
@@ -185,24 +193,6 @@ func (s *StreakResetService) processQueueEntry(ctx context.Context, entry *domai
 		reminder.MarkAsIncomplete()
 		_, _ = s.reminderRepo.UpdateReminder(ctx, reminder)
 	}
-
-	// Записываем метрики
-	metrics.StreaksReset.WithLabelValues(
-		strconv.Itoa(entry.HabitID),
-		strconv.Itoa(habit.UserID),
-	).Inc()
-
-	metrics.CurrentStreak.WithLabelValues(
-		strconv.Itoa(habit.ID),
-		strconv.Itoa(habit.UserID),
-		habit.Name,
-	).Set(float64(habit.CurrentStreak))
-
-	metrics.BestStreak.WithLabelValues(
-		strconv.Itoa(habit.ID),
-		strconv.Itoa(habit.UserID),
-		habit.Name,
-	).Set(float64(habit.BestStreak))
 
 	return nil
 }

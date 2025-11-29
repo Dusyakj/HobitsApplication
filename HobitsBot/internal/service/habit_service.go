@@ -36,6 +36,8 @@ type CreateHabitRequest struct {
 	Frequency   string // daily, weekly, monthly
 	Description string
 	Goal        string
+	WeeklyDays  string // "1,3,5" for weekly habits
+	MonthlyDays string // "1,15,28" for monthly habits
 }
 
 type HabitResponse struct {
@@ -43,6 +45,8 @@ type HabitResponse struct {
 	UserID        int32
 	Name          string
 	Frequency     string
+	Description   string
+	Goal          string
 	CurrentStreak int32
 	BestStreak    int32
 	IsActive      bool
@@ -57,6 +61,8 @@ func (s *HabitService) CreateHabit(ctx context.Context, req CreateHabitRequest) 
 		Frequency:   req.Frequency,
 		Description: req.Description,
 		Goal:        req.Goal,
+		WeeklyDays:  req.WeeklyDays,
+		MonthlyDays: req.MonthlyDays,
 	}
 
 	resp, err := s.client.CreateHabit(ctx, pbReq)
@@ -141,16 +147,31 @@ func (s *HabitService) UpdateHabit(ctx context.Context, habitID int, name, descr
 	return s.pbHabitToResponse(resp.Habit), nil
 }
 
-// DeleteHabit удаляет привычку
+// DeleteHabit деактивирует привычку
 func (s *HabitService) DeleteHabit(ctx context.Context, habitID int) error {
-	req := &pb.DeleteHabitRequest{
+	req := &pb.DeactivateHabitRequest{
 		Id: int32(habitID),
 	}
 
-	_, err := s.client.DeleteHabit(ctx, req)
+	_, err := s.client.DeactivateHabit(ctx, req)
 	if err != nil {
-		s.logger.Error("failed to delete habit: %v", err)
-		return fmt.Errorf("не удалось удалить привычку: %w", err)
+		s.logger.Error("failed to deactivate habit: %v", err)
+		return fmt.Errorf("не удалось деактивировать привычку: %w", err)
+	}
+
+	return nil
+}
+
+// ActivateHabit активирует привычку
+func (s *HabitService) ActivateHabit(ctx context.Context, habitID int) error {
+	req := &pb.ActivateHabitRequest{
+		Id: int32(habitID),
+	}
+
+	_, err := s.client.ActivateHabit(ctx, req)
+	if err != nil {
+		s.logger.Error("failed to activate habit: %v", err)
+		return fmt.Errorf("не удалось активировать привычку: %w", err)
 	}
 
 	return nil
@@ -220,6 +241,8 @@ func (s *HabitService) pbHabitToResponse(pb *pb.Habit) *HabitResponse {
 		UserID:        pb.UserId,
 		Name:          pb.Name,
 		Frequency:     pb.Frequency,
+		Description:   pb.Description,
+		Goal:          pb.Goal,
 		CurrentStreak: pb.CurrentStreak,
 		BestStreak:    pb.BestStreak,
 		IsActive:      pb.IsActive,

@@ -39,8 +39,6 @@ type HabitRepository interface {
 	UpdateHabit(ctx context.Context, habit *domain.Habit) (*domain.Habit, error)
 	// DeleteHabit удаляет привычку
 	DeleteHabit(ctx context.Context, id int) error
-	// GetHabitByUserIDAndName получает привычку по user ID и названию
-	GetHabitByUserIDAndName(ctx context.Context, userID int, name string) (*domain.Habit, error)
 }
 
 // HabitLogRepository определяет интерфейс для работы с логами привычек

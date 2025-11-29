@@ -28,15 +28,16 @@ message Habit {
   string frequency = 6; // "daily", "weekly", "monthly"
   string weekly_days = 7; // "1,3,5" for weekly
   string monthly_days = 8; // "1,15,28" for monthly
-  int32 current_streak = 9;
-  int32 best_streak = 10;
-  google.protobuf.Timestamp last_completed_date = 11;
-  google.protobuf.Timestamp last_checked_date = 12;
-  bool is_active = 13;
-  bool is_completed = 14;
-  google.protobuf.Timestamp created_at = 15;
-  google.protobuf.Timestamp updated_at = 16;
-  google.protobuf.Timestamp completed_at = 17;
+  int32 streak_goal = 9;
+  int32 current_streak = 10;
+  int32 best_streak = 11;
+  google.protobuf.Timestamp last_completed_date = 12;
+  google.protobuf.Timestamp last_checked_date = 13;
+  bool is_active = 14;
+  bool is_completed = 15;
+  google.protobuf.Timestamp created_at = 16;
+  google.protobuf.Timestamp updated_at = 17;
+  google.protobuf.Timestamp completed_at = 18;
 }
 
 // HabitLog представляет логирование выполнения привычки

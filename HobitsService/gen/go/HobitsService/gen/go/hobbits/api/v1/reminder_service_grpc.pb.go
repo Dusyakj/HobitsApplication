@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	ReminderService_GenerateRemindersForToday_FullMethodName = "/hobbits.api.v1.ReminderService/GenerateRemindersForToday"
 	ReminderService_GetRemindersForDate_FullMethodName       = "/hobbits.api.v1.ReminderService/GetRemindersForDate"
+	ReminderService_CreateInitialReminder_FullMethodName     = "/hobbits.api.v1.ReminderService/CreateInitialReminder"
 	ReminderService_GetUserRemindersForDate_FullMethodName   = "/hobbits.api.v1.ReminderService/GetUserRemindersForDate"
 	ReminderService_MarkReminderAsCompleted_FullMethodName   = "/hobbits.api.v1.ReminderService/MarkReminderAsCompleted"
 	ReminderService_MarkReminderAsIncomplete_FullMethodName  = "/hobbits.api.v1.ReminderService/MarkReminderAsIncomplete"
@@ -36,6 +37,7 @@ type ReminderServiceClient interface {
 	GenerateRemindersForToday(ctx context.Context, in *GenerateRemindersForTodayRequest, opts ...grpc.CallOption) (*GenerateRemindersForTodayResponse, error)
 	// GetRemindersForDate получает напоминания на дату
 	GetRemindersForDate(ctx context.Context, in *GetRemindersForDateRequest, opts ...grpc.CallOption) (*GetRemindersForDateResponse, error)
+	CreateInitialReminder(ctx context.Context, in *CreateInitialReminderRequest, opts ...grpc.CallOption) (*CreateInitialReminderResponse, error)
 	// GetUserRemindersForDate получает напоминания пользователя на дату
 	GetUserRemindersForDate(ctx context.Context, in *GetUserRemindersForDateRequest, opts ...grpc.CallOption) (*GetUserRemindersForDateResponse, error)
 	// MarkReminderAsCompleted отмечает напоминание как выполненное
@@ -66,6 +68,16 @@ func (c *reminderServiceClient) GetRemindersForDate(ctx context.Context, in *Get
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetRemindersForDateResponse)
 	err := c.cc.Invoke(ctx, ReminderService_GetRemindersForDate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *reminderServiceClient) CreateInitialReminder(ctx context.Context, in *CreateInitialReminderRequest, opts ...grpc.CallOption) (*CreateInitialReminderResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateInitialReminderResponse)
+	err := c.cc.Invoke(ctx, ReminderService_CreateInitialReminder_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -112,6 +124,7 @@ type ReminderServiceServer interface {
 	GenerateRemindersForToday(context.Context, *GenerateRemindersForTodayRequest) (*GenerateRemindersForTodayResponse, error)
 	// GetRemindersForDate получает напоминания на дату
 	GetRemindersForDate(context.Context, *GetRemindersForDateRequest) (*GetRemindersForDateResponse, error)
+	CreateInitialReminder(context.Context, *CreateInitialReminderRequest) (*CreateInitialReminderResponse, error)
 	// GetUserRemindersForDate получает напоминания пользователя на дату
 	GetUserRemindersForDate(context.Context, *GetUserRemindersForDateRequest) (*GetUserRemindersForDateResponse, error)
 	// MarkReminderAsCompleted отмечает напоминание как выполненное
@@ -133,6 +146,9 @@ func (UnimplementedReminderServiceServer) GenerateRemindersForToday(context.Cont
 }
 func (UnimplementedReminderServiceServer) GetRemindersForDate(context.Context, *GetRemindersForDateRequest) (*GetRemindersForDateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRemindersForDate not implemented")
+}
+func (UnimplementedReminderServiceServer) CreateInitialReminder(context.Context, *CreateInitialReminderRequest) (*CreateInitialReminderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateInitialReminder not implemented")
 }
 func (UnimplementedReminderServiceServer) GetUserRemindersForDate(context.Context, *GetUserRemindersForDateRequest) (*GetUserRemindersForDateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserRemindersForDate not implemented")
@@ -196,6 +212,24 @@ func _ReminderService_GetRemindersForDate_Handler(srv interface{}, ctx context.C
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ReminderServiceServer).GetRemindersForDate(ctx, req.(*GetRemindersForDateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ReminderService_CreateInitialReminder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateInitialReminderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReminderServiceServer).CreateInitialReminder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ReminderService_CreateInitialReminder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReminderServiceServer).CreateInitialReminder(ctx, req.(*CreateInitialReminderRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -268,6 +302,10 @@ var ReminderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetRemindersForDate",
 			Handler:    _ReminderService_GetRemindersForDate_Handler,
+		},
+		{
+			MethodName: "CreateInitialReminder",
+			Handler:    _ReminderService_CreateInitialReminder_Handler,
 		},
 		{
 			MethodName: "GetUserRemindersForDate",

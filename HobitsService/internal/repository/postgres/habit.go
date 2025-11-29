@@ -23,11 +23,11 @@ func NewHabitRepository(pool *pgxpool.Pool) *HabitRepository {
 func (r *HabitRepository) CreateHabit(ctx context.Context, habit *domain.Habit) (*domain.Habit, error) {
 	query := `
 		INSERT INTO habits (
-			user_id, name, description, goal, frequency, weekly_days, monthly_days,
+			user_id, name, description, goal, frequency, weekly_days, monthly_days, streak_goal,
 			current_streak, best_streak, is_active, is_completed, created_at, updated_at
 		)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
-		RETURNING id, user_id, name, description, goal, frequency, weekly_days, monthly_days,
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+		RETURNING id, user_id, name, description, goal, frequency, weekly_days, monthly_days, streak_goal,
 			current_streak, best_streak, last_completed_date, last_checked_date,
 			is_active, is_completed, created_at, updated_at, completed_at
 	`
@@ -40,6 +40,7 @@ func (r *HabitRepository) CreateHabit(ctx context.Context, habit *domain.Habit) 
 		habit.Frequency,
 		habit.WeeklyDays,
 		habit.MonthlyDays,
+		habit.StreakGoal,
 		habit.CurrentStreak,
 		habit.BestStreak,
 		habit.IsActive,
@@ -58,6 +59,7 @@ func (r *HabitRepository) CreateHabit(ctx context.Context, habit *domain.Habit) 
 		&result.Frequency,
 		&result.WeeklyDays,
 		&result.MonthlyDays,
+		&result.StreakGoal,
 		&result.CurrentStreak,
 		&result.BestStreak,
 		&result.LastCompletedDate,
@@ -78,7 +80,7 @@ func (r *HabitRepository) CreateHabit(ctx context.Context, habit *domain.Habit) 
 // GetHabitByID получает привычку по ID
 func (r *HabitRepository) GetHabitByID(ctx context.Context, id int) (*domain.Habit, error) {
 	query := `
-		SELECT id, user_id, name, description, goal, frequency, weekly_days, monthly_days,
+		SELECT id, user_id, name, description, goal, frequency, weekly_days, monthly_days, streak_goal,
 			current_streak, best_streak, last_completed_date, last_checked_date,
 			is_active, is_completed, created_at, updated_at, completed_at
 		FROM habits
@@ -97,6 +99,7 @@ func (r *HabitRepository) GetHabitByID(ctx context.Context, id int) (*domain.Hab
 		&habit.Frequency,
 		&habit.WeeklyDays,
 		&habit.MonthlyDays,
+		&habit.StreakGoal,
 		&habit.CurrentStreak,
 		&habit.BestStreak,
 		&habit.LastCompletedDate,
@@ -117,7 +120,7 @@ func (r *HabitRepository) GetHabitByID(ctx context.Context, id int) (*domain.Hab
 // GetHabitsByUserID получает все привычки пользователя
 func (r *HabitRepository) GetHabitsByUserID(ctx context.Context, userID int) ([]*domain.Habit, error) {
 	query := `
-		SELECT id, user_id, name, description, goal, frequency, weekly_days, monthly_days,
+		SELECT id, user_id, name, description, goal, frequency, weekly_days, monthly_days, streak_goal,
 			current_streak, best_streak, last_completed_date, last_checked_date,
 			is_active, is_completed, created_at, updated_at, completed_at
 		FROM habits
@@ -143,6 +146,7 @@ func (r *HabitRepository) GetHabitsByUserID(ctx context.Context, userID int) ([]
 			&habit.Frequency,
 			&habit.WeeklyDays,
 			&habit.MonthlyDays,
+			&habit.StreakGoal,
 			&habit.CurrentStreak,
 			&habit.BestStreak,
 			&habit.LastCompletedDate,
@@ -169,7 +173,7 @@ func (r *HabitRepository) GetHabitsByUserID(ctx context.Context, userID int) ([]
 // GetActiveHabitsByUserID получает активные привычки пользователя
 func (r *HabitRepository) GetActiveHabitsByUserID(ctx context.Context, userID int) ([]*domain.Habit, error) {
 	query := `
-		SELECT id, user_id, name, description, goal, frequency, weekly_days, monthly_days,
+		SELECT id, user_id, name, description, goal, frequency, weekly_days, monthly_days, streak_goal,
 			current_streak, best_streak, last_completed_date, last_checked_date,
 			is_active, is_completed, created_at, updated_at, completed_at
 		FROM habits
@@ -195,6 +199,7 @@ func (r *HabitRepository) GetActiveHabitsByUserID(ctx context.Context, userID in
 			&habit.Frequency,
 			&habit.WeeklyDays,
 			&habit.MonthlyDays,
+			&habit.StreakGoal,
 			&habit.CurrentStreak,
 			&habit.BestStreak,
 			&habit.LastCompletedDate,
@@ -223,11 +228,11 @@ func (r *HabitRepository) UpdateHabit(ctx context.Context, habit *domain.Habit) 
 	query := `
 		UPDATE habits
 		SET name = $1, description = $2, goal = $3, frequency = $4, weekly_days = $5,
-			monthly_days = $6, current_streak = $7, best_streak = $8,
-			last_completed_date = $9, last_checked_date = $10,
-			is_active = $11, is_completed = $12, updated_at = $13, completed_at = $14
-		WHERE id = $15
-		RETURNING id, user_id, name, description, goal, frequency, weekly_days, monthly_days,
+			monthly_days = $6, streak_goal = $7, current_streak = $8, best_streak = $9,
+			last_completed_date = $10, last_checked_date = $11,
+			is_active = $12, is_completed = $13, updated_at = $14, completed_at = $15
+		WHERE id = $16
+		RETURNING id, user_id, name, description, goal, frequency, weekly_days, monthly_days, streak_goal,
 			current_streak, best_streak, last_completed_date, last_checked_date,
 			is_active, is_completed, created_at, updated_at, completed_at
 	`
@@ -239,6 +244,7 @@ func (r *HabitRepository) UpdateHabit(ctx context.Context, habit *domain.Habit) 
 		habit.Frequency,
 		habit.WeeklyDays,
 		habit.MonthlyDays,
+		habit.StreakGoal,
 		habit.CurrentStreak,
 		habit.BestStreak,
 		habit.LastCompletedDate,
@@ -260,6 +266,7 @@ func (r *HabitRepository) UpdateHabit(ctx context.Context, habit *domain.Habit) 
 		&result.Frequency,
 		&result.WeeklyDays,
 		&result.MonthlyDays,
+		&result.StreakGoal,
 		&result.CurrentStreak,
 		&result.BestStreak,
 		&result.LastCompletedDate,
@@ -290,7 +297,7 @@ func (r *HabitRepository) DeleteHabit(ctx context.Context, id int) error {
 // GetAllActiveHabits получает все активные привычки
 func (r *HabitRepository) GetAllActiveHabits(ctx context.Context) ([]*domain.Habit, error) {
 	query := `
-		SELECT id, user_id, name, description, goal, frequency, weekly_days, monthly_days,
+		SELECT id, user_id, name, description, goal, frequency, weekly_days, monthly_days, streak_goal,
 			current_streak, best_streak, last_completed_date, last_checked_date,
 			is_active, is_completed, created_at, updated_at, completed_at
 		FROM habits
@@ -316,6 +323,7 @@ func (r *HabitRepository) GetAllActiveHabits(ctx context.Context) ([]*domain.Hab
 			&habit.Frequency,
 			&habit.WeeklyDays,
 			&habit.MonthlyDays,
+			&habit.StreakGoal,
 			&habit.CurrentStreak,
 			&habit.BestStreak,
 			&habit.LastCompletedDate,
@@ -337,43 +345,4 @@ func (r *HabitRepository) GetAllActiveHabits(ctx context.Context) ([]*domain.Hab
 	}
 
 	return habits, nil
-}
-
-// GetHabitByUserIDAndName получает привычку по user ID и названию
-func (r *HabitRepository) GetHabitByUserIDAndName(ctx context.Context, userID int, name string) (*domain.Habit, error) {
-	query := `
-		SELECT id, user_id, name, description, goal, frequency, weekly_days, monthly_days,
-			current_streak, best_streak, last_completed_date, last_checked_date,
-			is_active, is_completed, created_at, updated_at, completed_at
-		FROM habits
-		WHERE user_id = $1 AND name = $2
-	`
-
-	row := r.pool.QueryRow(ctx, query, userID, name)
-
-	var habit domain.Habit
-	err := row.Scan(
-		&habit.ID,
-		&habit.UserID,
-		&habit.Name,
-		&habit.Description,
-		&habit.Goal,
-		&habit.Frequency,
-		&habit.WeeklyDays,
-		&habit.MonthlyDays,
-		&habit.CurrentStreak,
-		&habit.BestStreak,
-		&habit.LastCompletedDate,
-		&habit.LastCheckedDate,
-		&habit.IsActive,
-		&habit.IsCompleted,
-		&habit.CreatedAt,
-		&habit.UpdatedAt,
-		&habit.CompletedAt,
-	)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get habit by user_id and name: %w", err)
-	}
-
-	return &habit, nil
 }

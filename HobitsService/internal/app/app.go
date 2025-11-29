@@ -3,15 +3,19 @@ package app
 import (
 	"HobitsService/internal/delivery/grpc"
 	"HobitsService/internal/infrastructure/database"
+	"HobitsService/internal/infrastructure/queue"
 	"HobitsService/internal/infrastructure/scheduler"
+	"HobitsService/internal/logger"
 	"HobitsService/internal/repository/postgres"
 	"HobitsService/internal/service"
+	"go.uber.org/zap"
 )
 
 // App содержит все зависимости приложения
 type App struct {
 	// Infrastructure
 	Database *database.Database
+	RabbitMQ *queue.RabbitMQClient
 
 	// Repositories
 	UserRepository             *postgres.UserRepository
@@ -35,41 +39,51 @@ type App struct {
 }
 
 // NewApp инициализирует все зависимости и возвращает готовое приложение
-func NewApp(db *database.Database) *App {
-	// Инициализируем репозитории
+func NewApp(db *database.Database, rabbitMQURL string) *App {
+	// Initialize repositories
 	userRepo := postgres.NewUserRepository(db.Pool)
 	habitRepo := postgres.NewHabitRepository(db.Pool)
 	habitLogRepo := postgres.NewHabitLogRepository(db.Pool)
 	habitReminderRepo := postgres.NewHabitReminderRepository(db.Pool)
 	streakResetQueueRepo := postgres.NewStreakResetQueueRepository(db.Pool)
 
-	// Инициализируем сервисы
+	// Initialize services
 	userService := service.NewUserService(userRepo)
 	habitService := service.NewHabitService(habitRepo, habitLogRepo, habitReminderRepo)
 	logService := service.NewLogService(habitLogRepo, habitRepo, habitReminderRepo, streakResetQueueRepo, habitService)
 	reminderService := service.NewReminderService(habitReminderRepo, habitRepo, habitService)
 	streakResetService := service.NewStreakResetService(streakResetQueueRepo, habitRepo, habitLogRepo, habitReminderRepo, habitService)
 
-	// Инициализируем gRPC сервер (порт будет задан в main.go)
+	// Initialize RabbitMQ client
+	rabbitMQClient, err := queue.NewRabbitMQClient(rabbitMQURL)
+	if err != nil {
+		logger.Error("Failed to initialize RabbitMQ client", zap.Error(err))
+		logger.Warn("Continuing without RabbitMQ - notifications will not be sent")
+		rabbitMQClient = nil
+	}
+
+	// Initialize gRPC server
 	grpcServer := grpc.NewServer(
-		50051, // Порт по умолчанию
+		50051,
 		userService,
 		habitService,
 		logService,
 		reminderService,
 	)
 
-	// Инициализируем scheduler
+	// Initialize scheduler
 	sched := scheduler.NewScheduler(
 		habitService,
 		logService,
 		reminderService,
 		streakResetService,
 		userService,
+		rabbitMQClient,
 	)
 
 	return &App{
 		Database:                   db,
+		RabbitMQ:                   rabbitMQClient,
 		UserRepository:             userRepo,
 		HabitRepository:            habitRepo,
 		HabitLogRepository:         habitLogRepo,
@@ -87,17 +101,18 @@ func NewApp(db *database.Database) *App {
 
 // Close закрывает все подключения и останавливает сервисы
 func (a *App) Close() error {
-	// Останавливаем scheduler
 	if a.Scheduler != nil {
 		a.Scheduler.Stop()
 	}
 
-	// Останавливаем gRPC сервер
 	if a.GRPCServer != nil {
 		_ = a.GRPCServer.Stop()
 	}
 
-	// Закрываем БД
+	if a.RabbitMQ != nil {
+		_ = a.RabbitMQ.Close()
+	}
+
 	a.Database.Close()
 	return nil
 }

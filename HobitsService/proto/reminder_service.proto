@@ -15,6 +15,8 @@ service ReminderService {
   // GetRemindersForDate получает напоминания на дату
   rpc GetRemindersForDate(GetRemindersForDateRequest) returns (GetRemindersForDateResponse);
 
+  rpc CreateInitialReminder(CreateInitialReminderRequest) returns (CreateInitialReminderResponse);
+
   // GetUserRemindersForDate получает напоминания пользователя на дату
   rpc GetUserRemindersForDate(GetUserRemindersForDateRequest) returns (GetUserRemindersForDateResponse);
 
@@ -41,6 +43,15 @@ message GetRemindersForDateRequest {
 message GetRemindersForDateResponse {
   repeated HabitReminder reminders = 1;
 }
+
+message CreateInitialReminderRequest {
+  int32 habit_id = 1;
+}
+
+message CreateInitialReminderResponse {
+  HabitReminder reminder = 1;
+}
+
 
 message GetUserRemindersForDateRequest {
   int32 user_id = 1;

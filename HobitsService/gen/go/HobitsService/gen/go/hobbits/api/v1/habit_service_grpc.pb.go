@@ -24,7 +24,8 @@ const (
 	HabitService_GetUserHabits_FullMethodName    = "/hobbits.api.v1.HabitService/GetUserHabits"
 	HabitService_GetActiveHabits_FullMethodName  = "/hobbits.api.v1.HabitService/GetActiveHabits"
 	HabitService_UpdateHabit_FullMethodName      = "/hobbits.api.v1.HabitService/UpdateHabit"
-	HabitService_DeleteHabit_FullMethodName      = "/hobbits.api.v1.HabitService/DeleteHabit"
+	HabitService_DeactivateHabit_FullMethodName  = "/hobbits.api.v1.HabitService/DeactivateHabit"
+	HabitService_ActivateHabit_FullMethodName    = "/hobbits.api.v1.HabitService/ActivateHabit"
 	HabitService_SetWeeklyDays_FullMethodName    = "/hobbits.api.v1.HabitService/SetWeeklyDays"
 	HabitService_SetMonthlyDays_FullMethodName   = "/hobbits.api.v1.HabitService/SetMonthlyDays"
 	HabitService_IsScheduledToday_FullMethodName = "/hobbits.api.v1.HabitService/IsScheduledToday"
@@ -46,8 +47,10 @@ type HabitServiceClient interface {
 	GetActiveHabits(ctx context.Context, in *GetActiveHabitsRequest, opts ...grpc.CallOption) (*GetActiveHabitsResponse, error)
 	// UpdateHabit обновляет привычку
 	UpdateHabit(ctx context.Context, in *UpdateHabitRequest, opts ...grpc.CallOption) (*UpdateHabitResponse, error)
-	// DeleteHabit удаляет привычку (деактивирует)
-	DeleteHabit(ctx context.Context, in *DeleteHabitRequest, opts ...grpc.CallOption) (*DeleteHabitResponse, error)
+	// DeactivateHabit деактивирует привычку
+	DeactivateHabit(ctx context.Context, in *DeactivateHabitRequest, opts ...grpc.CallOption) (*DeactivateHabitResponse, error)
+	// ActivateHabit активирует привычку
+	ActivateHabit(ctx context.Context, in *ActivateHabitRequest, opts ...grpc.CallOption) (*ActivateHabitResponse, error)
 	// SetWeeklyDays устанавливает дни недели для еженедельной привычки
 	SetWeeklyDays(ctx context.Context, in *SetWeeklyDaysRequest, opts ...grpc.CallOption) (*SetWeeklyDaysResponse, error)
 	// SetMonthlyDays устанавливает дни месяца для ежемесячной привычки
@@ -114,10 +117,20 @@ func (c *habitServiceClient) UpdateHabit(ctx context.Context, in *UpdateHabitReq
 	return out, nil
 }
 
-func (c *habitServiceClient) DeleteHabit(ctx context.Context, in *DeleteHabitRequest, opts ...grpc.CallOption) (*DeleteHabitResponse, error) {
+func (c *habitServiceClient) DeactivateHabit(ctx context.Context, in *DeactivateHabitRequest, opts ...grpc.CallOption) (*DeactivateHabitResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteHabitResponse)
-	err := c.cc.Invoke(ctx, HabitService_DeleteHabit_FullMethodName, in, out, cOpts...)
+	out := new(DeactivateHabitResponse)
+	err := c.cc.Invoke(ctx, HabitService_DeactivateHabit_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *habitServiceClient) ActivateHabit(ctx context.Context, in *ActivateHabitRequest, opts ...grpc.CallOption) (*ActivateHabitResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ActivateHabitResponse)
+	err := c.cc.Invoke(ctx, HabitService_ActivateHabit_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -170,8 +183,10 @@ type HabitServiceServer interface {
 	GetActiveHabits(context.Context, *GetActiveHabitsRequest) (*GetActiveHabitsResponse, error)
 	// UpdateHabit обновляет привычку
 	UpdateHabit(context.Context, *UpdateHabitRequest) (*UpdateHabitResponse, error)
-	// DeleteHabit удаляет привычку (деактивирует)
-	DeleteHabit(context.Context, *DeleteHabitRequest) (*DeleteHabitResponse, error)
+	// DeactivateHabit деактивирует привычку
+	DeactivateHabit(context.Context, *DeactivateHabitRequest) (*DeactivateHabitResponse, error)
+	// ActivateHabit активирует привычку
+	ActivateHabit(context.Context, *ActivateHabitRequest) (*ActivateHabitResponse, error)
 	// SetWeeklyDays устанавливает дни недели для еженедельной привычки
 	SetWeeklyDays(context.Context, *SetWeeklyDaysRequest) (*SetWeeklyDaysResponse, error)
 	// SetMonthlyDays устанавливает дни месяца для ежемесячной привычки
@@ -203,8 +218,11 @@ func (UnimplementedHabitServiceServer) GetActiveHabits(context.Context, *GetActi
 func (UnimplementedHabitServiceServer) UpdateHabit(context.Context, *UpdateHabitRequest) (*UpdateHabitResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateHabit not implemented")
 }
-func (UnimplementedHabitServiceServer) DeleteHabit(context.Context, *DeleteHabitRequest) (*DeleteHabitResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteHabit not implemented")
+func (UnimplementedHabitServiceServer) DeactivateHabit(context.Context, *DeactivateHabitRequest) (*DeactivateHabitResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeactivateHabit not implemented")
+}
+func (UnimplementedHabitServiceServer) ActivateHabit(context.Context, *ActivateHabitRequest) (*ActivateHabitResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ActivateHabit not implemented")
 }
 func (UnimplementedHabitServiceServer) SetWeeklyDays(context.Context, *SetWeeklyDaysRequest) (*SetWeeklyDaysResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetWeeklyDays not implemented")
@@ -326,20 +344,38 @@ func _HabitService_UpdateHabit_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-func _HabitService_DeleteHabit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteHabitRequest)
+func _HabitService_DeactivateHabit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeactivateHabitRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(HabitServiceServer).DeleteHabit(ctx, in)
+		return srv.(HabitServiceServer).DeactivateHabit(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: HabitService_DeleteHabit_FullMethodName,
+		FullMethod: HabitService_DeactivateHabit_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HabitServiceServer).DeleteHabit(ctx, req.(*DeleteHabitRequest))
+		return srv.(HabitServiceServer).DeactivateHabit(ctx, req.(*DeactivateHabitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HabitService_ActivateHabit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ActivateHabitRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HabitServiceServer).ActivateHabit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: HabitService_ActivateHabit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HabitServiceServer).ActivateHabit(ctx, req.(*ActivateHabitRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -426,8 +462,12 @@ var HabitService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _HabitService_UpdateHabit_Handler,
 		},
 		{
-			MethodName: "DeleteHabit",
-			Handler:    _HabitService_DeleteHabit_Handler,
+			MethodName: "DeactivateHabit",
+			Handler:    _HabitService_DeactivateHabit_Handler,
+		},
+		{
+			MethodName: "ActivateHabit",
+			Handler:    _HabitService_ActivateHabit_Handler,
 		},
 		{
 			MethodName: "SetWeeklyDays",

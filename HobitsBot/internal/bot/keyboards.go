@@ -7,23 +7,41 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
-// MainMenuKeyboard возвращает главное меню
-func MainMenuKeyboard() tgbotapi.ReplyKeyboardMarkup {
-	return tgbotapi.NewReplyKeyboard(
-		tgbotapi.NewKeyboardButtonRow(
-			tgbotapi.NewKeyboardButton("📋 Мои привычки"),
-			tgbotapi.NewKeyboardButton("➕ Добавить"),
+// MainMenuInlineKeyboard возвращает главное меню в виде inline кнопок
+func MainMenuInlineKeyboard() tgbotapi.InlineKeyboardMarkup {
+	return tgbotapi.NewInlineKeyboardMarkup(
+		tgbotapi.NewInlineKeyboardRow(
+			tgbotapi.NewInlineKeyboardButtonData("📋 Мои привычки", "menu_habits"),
+			tgbotapi.NewInlineKeyboardButtonData("➕ Добавить", "menu_add"),
 		),
-		tgbotapi.NewKeyboardButtonRow(
-			tgbotapi.NewKeyboardButton("🔔 Напоминания"),
-			tgbotapi.NewKeyboardButton("📊 Статистика"),
+		tgbotapi.NewInlineKeyboardRow(
+			tgbotapi.NewInlineKeyboardButtonData("🔔 Напоминания", "menu_today"),
+			tgbotapi.NewInlineKeyboardButtonData("📊 Статистика", "menu_stats"),
 		),
-		tgbotapi.NewKeyboardButtonRow(
-			tgbotapi.NewKeyboardButton("⚙️ Настройки"),
-			tgbotapi.NewKeyboardButton("❓ Помощь"),
+		tgbotapi.NewInlineKeyboardRow(
+			tgbotapi.NewInlineKeyboardButtonData("📚 Архив", "menu_archive"),
+			tgbotapi.NewInlineKeyboardButtonData("❓ Помощь", "menu_help"),
 		),
 	)
 }
+
+// MainMenuKeyboard возвращает главное меню (ЗАКОММЕНТИРОВАНО - используется MainMenuInlineKeyboard)
+// func MainMenuKeyboard() tgbotapi.ReplyKeyboardMarkup {
+// 	return tgbotapi.NewReplyKeyboard(
+// 		tgbotapi.NewKeyboardButtonRow(
+// 			tgbotapi.NewKeyboardButton("📋 Мои привычки"),
+// 			tgbotapi.NewKeyboardButton("➕ Добавить"),
+// 		),
+// 		tgbotapi.NewKeyboardButtonRow(
+// 			tgbotapi.NewKeyboardButton("🔔 Напоминания"),
+// 			tgbotapi.NewKeyboardButton("📊 Статистика"),
+// 		),
+// 		tgbotapi.NewKeyboardButtonRow(
+// 			tgbotapi.NewKeyboardButton("⚙️ Настройки"),
+// 			tgbotapi.NewKeyboardButton("❓ Помощь"),
+// 		),
+// 	)
+// }
 
 // HabitsListKeyboard возвращает клавиатуру со списком привычек
 func HabitsListKeyboard(habitIDs []int, habitNames []string) tgbotapi.InlineKeyboardMarkup {
@@ -65,6 +83,38 @@ func HabitActionsKeyboard(habitID int) tgbotapi.InlineKeyboardMarkup {
 	)
 }
 
+// HabitActionsKeyboardWithDescription возвращает клавиатуру для действий с привычкой (с кнопкой описания)
+func HabitActionsKeyboardWithDescription(habitID int, description string) tgbotapi.InlineKeyboardMarkup {
+	var rows [][]tgbotapi.InlineKeyboardButton
+
+	rows = append(rows, tgbotapi.NewInlineKeyboardRow(
+		tgbotapi.NewInlineKeyboardButtonData("✅ Выполнено", fmt.Sprintf("habit_%d_complete", habitID)),
+		tgbotapi.NewInlineKeyboardButtonData("⏭️ Пропустить", fmt.Sprintf("habit_%d_skip", habitID)),
+	))
+
+	rows = append(rows, tgbotapi.NewInlineKeyboardRow(
+		tgbotapi.NewInlineKeyboardButtonData("📝 Комментарий", fmt.Sprintf("habit_%d_comment", habitID)),
+		tgbotapi.NewInlineKeyboardButtonData("📊 Статистика", fmt.Sprintf("habit_%d_stats", habitID)),
+	))
+
+	// Добавляем кнопку описания только если оно есть
+	if description != "" {
+		rows = append(rows, tgbotapi.NewInlineKeyboardRow(
+			tgbotapi.NewInlineKeyboardButtonData("📄 Описание", fmt.Sprintf("habit_%d_description", habitID)),
+		))
+	}
+
+	rows = append(rows, tgbotapi.NewInlineKeyboardRow(
+		tgbotapi.NewInlineKeyboardButtonData("🚫 Деактивировать", fmt.Sprintf("habit_%d_deactivate", habitID)),
+	))
+
+	rows = append(rows, tgbotapi.NewInlineKeyboardRow(
+		tgbotapi.NewInlineKeyboardButtonData("⬅️ Назад", "menu_habits"),
+	))
+
+	return tgbotapi.NewInlineKeyboardMarkup(rows...)
+}
+
 // HabitDetailKeyboardDeactivateOnly возвращает клавиатуру с кнопкой деактивации (для выполненных или неактивных привычек)
 func HabitDetailKeyboardDeactivateOnly(habitID int) tgbotapi.InlineKeyboardMarkup {
 	return tgbotapi.NewInlineKeyboardMarkup(
@@ -75,6 +125,28 @@ func HabitDetailKeyboardDeactivateOnly(habitID int) tgbotapi.InlineKeyboardMarku
 			tgbotapi.NewInlineKeyboardButtonData("⬅️ Назад", "menu_habits"),
 		),
 	)
+}
+
+// HabitDetailKeyboardWithDescription возвращает клавиатуру с кнопкой описания и деактивации
+func HabitDetailKeyboardWithDescription(habitID int, description string) tgbotapi.InlineKeyboardMarkup {
+	var rows [][]tgbotapi.InlineKeyboardButton
+
+	// Добавляем кнопку описания только если оно есть
+	if description != "" {
+		rows = append(rows, tgbotapi.NewInlineKeyboardRow(
+			tgbotapi.NewInlineKeyboardButtonData("📄 Описание", fmt.Sprintf("habit_%d_description", habitID)),
+		))
+	}
+
+	rows = append(rows, tgbotapi.NewInlineKeyboardRow(
+		tgbotapi.NewInlineKeyboardButtonData("🚫 Деактивировать", fmt.Sprintf("habit_%d_deactivate", habitID)),
+	))
+
+	rows = append(rows, tgbotapi.NewInlineKeyboardRow(
+		tgbotapi.NewInlineKeyboardButtonData("⬅️ Назад", "menu_habits"),
+	))
+
+	return tgbotapi.NewInlineKeyboardMarkup(rows...)
 }
 
 // FrequencyKeyboard возвращает клавиатуру для выбора частоты привычки

@@ -15,7 +15,6 @@ var Logger *zap.Logger
 func Init(environment string) error {
 	var config zap.Config
 
-	// В зависимости от окружения выбираем конфиг
 	if environment == "production" {
 		config = zap.NewProductionConfig()
 	} else {
@@ -23,7 +22,6 @@ func Init(environment string) error {
 		config.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
 	}
 
-	// Настраиваем вывод в stdout + файл
 	stdoutSink := zapcore.AddSync(os.Stdout)
 
 	// Лог файл с ротацией

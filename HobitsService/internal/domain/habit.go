@@ -16,23 +16,24 @@ const (
 
 // Habit представляет привычку пользователя
 type Habit struct {
-	ID                int                `db:"id"`
-	UserID            int                `db:"user_id"`
-	Name              string             `db:"name"`
-	Description       sql.NullString     `db:"description"`
-	Goal              sql.NullString     `db:"goal"`
-	Frequency         HabitFrequency     `db:"frequency"`
-	WeeklyDays        sql.NullString     `db:"weekly_days"`
-	MonthlyDays       sql.NullString     `db:"monthly_days"`
-	CurrentStreak     int                `db:"current_streak"`
-	BestStreak        int                `db:"best_streak"`
-	LastCompletedDate sql.NullTime       `db:"last_completed_date"`
-	LastCheckedDate   sql.NullTime       `db:"last_checked_date"`
-	IsActive          bool               `db:"is_active"`
-	IsCompleted       bool               `db:"is_completed"`
-	CreatedAt         time.Time          `db:"created_at"`
-	UpdatedAt         time.Time          `db:"updated_at"`
-	CompletedAt       sql.NullTime       `db:"completed_at"`
+	ID                int            `db:"id"`
+	UserID            int            `db:"user_id"`
+	Name              string         `db:"name"`
+	Description       sql.NullString `db:"description"`
+	Goal              sql.NullString `db:"goal"`
+	StreakGoal        int            `db:"streak_goal"`
+	Frequency         HabitFrequency `db:"frequency"`
+	WeeklyDays        sql.NullString `db:"weekly_days"`
+	MonthlyDays       sql.NullString `db:"monthly_days"`
+	CurrentStreak     int            `db:"current_streak"`
+	BestStreak        int            `db:"best_streak"`
+	LastCompletedDate sql.NullTime   `db:"last_completed_date"`
+	LastCheckedDate   sql.NullTime   `db:"last_checked_date"`
+	IsActive          bool           `db:"is_active"`
+	IsCompleted       bool           `db:"is_completed"`
+	CreatedAt         time.Time      `db:"created_at"`
+	UpdatedAt         time.Time      `db:"updated_at"`
+	CompletedAt       sql.NullTime   `db:"completed_at"`
 }
 
 // NewHabit создает новую привычку
@@ -44,6 +45,7 @@ func NewHabit(userID int, name string, frequency HabitFrequency) *Habit {
 		Frequency:     frequency,
 		IsActive:      true,
 		IsCompleted:   false,
+		StreakGoal:    30,
 		CurrentStreak: 0,
 		BestStreak:    0,
 		CreatedAt:     now,
@@ -59,6 +61,12 @@ func (h *Habit) SetDescription(description string) {
 
 // SetGoal устанавливает цель привычки
 func (h *Habit) SetGoal(goal string) {
+	h.Goal = sql.NullString{String: goal, Valid: goal != ""}
+	h.UpdatedAt = time.Now()
+}
+
+// SetGoal устанавливает цель по стрику
+func (h *Habit) SetStreakGoal(goal string) {
 	h.Goal = sql.NullString{String: goal, Valid: goal != ""}
 	h.UpdatedAt = time.Now()
 }

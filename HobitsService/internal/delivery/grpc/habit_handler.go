@@ -12,7 +12,6 @@ import (
 	api "HobitsService/gen/go/HobitsService/gen/go/hobbits/api/v1"
 	"HobitsService/internal/domain"
 	"HobitsService/internal/logger"
-	"HobitsService/internal/metrics"
 	"HobitsService/internal/service"
 )
 
@@ -60,9 +59,6 @@ func (s *HabitServiceServer) CreateHabit(ctx context.Context, req *api.CreateHab
 
 	// Обновляем в БД
 	habit, _ = s.habitService.UpdateHabit(ctx, habit)
-
-	// Метрики
-	metrics.HabitsCreated.WithLabelValues(strconv.Itoa(int(req.UserId))).Inc()
 
 	return &api.CreateHabitResponse{
 		Habit: habitToProto(habit),
@@ -152,8 +148,8 @@ func (s *HabitServiceServer) UpdateHabit(ctx context.Context, req *api.UpdateHab
 	}, nil
 }
 
-// DeleteHabit удаляет (деактивирует) привычку
-func (s *HabitServiceServer) DeleteHabit(ctx context.Context, req *api.DeleteHabitRequest) (*api.DeleteHabitResponse, error) {
+// DeactivateHabit деактивирует привычку
+func (s *HabitServiceServer) DeactivateHabit(ctx context.Context, req *api.DeactivateHabitRequest) (*api.DeactivateHabitResponse, error) {
 	logger.Debug("DeleteHabit called", zap.Int32("id", req.Id))
 
 	_, err := s.habitService.DeactivateHabit(ctx, int(req.Id))
@@ -162,7 +158,22 @@ func (s *HabitServiceServer) DeleteHabit(ctx context.Context, req *api.DeleteHab
 		return nil, status.Errorf(codes.Internal, "failed to delete habit: %v", err)
 	}
 
-	return &api.DeleteHabitResponse{
+	return &api.DeactivateHabitResponse{
+		Success: true,
+	}, nil
+}
+
+// ActivateHabit деактивирует привычку
+func (s *HabitServiceServer) ActivateHabit(ctx context.Context, req *api.ActivateHabitRequest) (*api.ActivateHabitResponse, error) {
+	logger.Debug("DeleteHabit called", zap.Int32("id", req.Id))
+
+	_, err := s.habitService.ActivateHabit(ctx, int(req.Id))
+	if err != nil {
+		logger.Error("failed to delete habit", zap.Error(err))
+		return nil, status.Errorf(codes.Internal, "failed to delete habit: %v", err)
+	}
+
+	return &api.ActivateHabitResponse{
 		Success: true,
 	}, nil
 }

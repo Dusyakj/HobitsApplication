@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"context"
-	"strconv"
 
 	"go.uber.org/zap"
 	"google.golang.org/grpc/codes"
@@ -10,7 +9,6 @@ import (
 
 	api "HobitsService/gen/go/HobitsService/gen/go/hobbits/api/v1"
 	"HobitsService/internal/logger"
-	"HobitsService/internal/metrics"
 	"HobitsService/internal/service"
 )
 
@@ -18,12 +16,14 @@ import (
 type ReminderServiceServer struct {
 	api.UnimplementedReminderServiceServer
 	reminderService *service.ReminderService
+	habitService    *service.HabitService
 }
 
 // NewReminderServiceServer создает новый ReminderServiceServer
-func NewReminderServiceServer(reminderService *service.ReminderService) *ReminderServiceServer {
+func NewReminderServiceServer(reminderService *service.ReminderService, habitService *service.HabitService) *ReminderServiceServer {
 	return &ReminderServiceServer{
 		reminderService: reminderService,
+		habitService:    habitService,
 	}
 }
 
@@ -41,9 +41,6 @@ func (s *ReminderServiceServer) GenerateRemindersForToday(ctx context.Context, r
 	for i, r := range reminders {
 		protoReminders[i] = habitReminderToProto(r)
 	}
-
-	// Метрики
-	metrics.RemindersCreated.WithLabelValues(strconv.Itoa(int(req.UserId))).Add(float64(len(reminders)))
 
 	return &api.GenerateRemindersForTodayResponse{
 		Reminders: protoReminders,
@@ -111,9 +108,6 @@ func (s *ReminderServiceServer) MarkReminderAsCompleted(ctx context.Context, req
 		return nil, status.Errorf(codes.Internal, "failed to mark reminder: %v", err)
 	}
 
-	// Метрики
-	metrics.RemindersCompleted.WithLabelValues(strconv.Itoa(int(reminder.UserID))).Inc()
-
 	return &api.MarkReminderAsCompletedResponse{
 		Reminder: habitReminderToProto(reminder),
 	}, nil
@@ -130,6 +124,43 @@ func (s *ReminderServiceServer) MarkReminderAsIncomplete(ctx context.Context, re
 	}
 
 	return &api.MarkReminderAsIncompleteResponse{
+		Reminder: habitReminderToProto(reminder),
+	}, nil
+}
+
+// CreateInitialReminder создает первое напоминание для новой привычки
+// Вызывается Telegram ботом после создания привычки
+func (s *ReminderServiceServer) CreateInitialReminder(ctx context.Context, req *api.CreateInitialReminderRequest) (*api.CreateInitialReminderResponse, error) {
+	logger.Debug("CreateInitialReminder called", zap.Int32("habit_id", req.HabitId))
+
+	// Получаем привычку
+	habit, err := s.habitService.GetHabit(ctx, int(req.HabitId))
+	if err != nil {
+		logger.Error("failed to get habit", zap.Error(err))
+		return nil, status.Errorf(codes.NotFound, "habit not found: %v", err)
+	}
+
+	// Вычисляем первую дату напоминания
+	initialDate, err := s.reminderService.CalculateInitialReminderDate(habit)
+	if err != nil {
+		logger.Error("failed to calculate initial reminder date", zap.Error(err))
+		return nil, status.Errorf(codes.Internal, "failed to calculate reminder date: %v", err)
+	}
+
+	// Создаем напоминание
+	reminder, err := s.reminderService.CreateReminder(ctx, habit.ID, habit.UserID, initialDate)
+	if err != nil {
+		logger.Error("failed to create initial reminder", zap.Error(err))
+		return nil, status.Errorf(codes.Internal, "failed to create reminder: %v", err)
+	}
+
+	logger.Info("Initial reminder created",
+		zap.Int("habit_id", habit.ID),
+		zap.Int("user_id", habit.UserID),
+		zap.Time("reminder_date", initialDate),
+	)
+
+	return &api.CreateInitialReminderResponse{
 		Reminder: habitReminderToProto(reminder),
 	}, nil
 }

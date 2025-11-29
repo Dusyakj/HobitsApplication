@@ -533,27 +533,27 @@ func (x *UpdateHabitResponse) GetHabit() *Habit {
 	return nil
 }
 
-type DeleteHabitRequest struct {
+type DeactivateHabitRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *DeleteHabitRequest) Reset() {
-	*x = DeleteHabitRequest{}
+func (x *DeactivateHabitRequest) Reset() {
+	*x = DeactivateHabitRequest{}
 	mi := &file_habit_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *DeleteHabitRequest) String() string {
+func (x *DeactivateHabitRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DeleteHabitRequest) ProtoMessage() {}
+func (*DeactivateHabitRequest) ProtoMessage() {}
 
-func (x *DeleteHabitRequest) ProtoReflect() protoreflect.Message {
+func (x *DeactivateHabitRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_habit_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -565,39 +565,39 @@ func (x *DeleteHabitRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteHabitRequest.ProtoReflect.Descriptor instead.
-func (*DeleteHabitRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeactivateHabitRequest.ProtoReflect.Descriptor instead.
+func (*DeactivateHabitRequest) Descriptor() ([]byte, []int) {
 	return file_habit_service_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *DeleteHabitRequest) GetId() int32 {
+func (x *DeactivateHabitRequest) GetId() int32 {
 	if x != nil {
 		return x.Id
 	}
 	return 0
 }
 
-type DeleteHabitResponse struct {
+type DeactivateHabitResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *DeleteHabitResponse) Reset() {
-	*x = DeleteHabitResponse{}
+func (x *DeactivateHabitResponse) Reset() {
+	*x = DeactivateHabitResponse{}
 	mi := &file_habit_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *DeleteHabitResponse) String() string {
+func (x *DeactivateHabitResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DeleteHabitResponse) ProtoMessage() {}
+func (*DeactivateHabitResponse) ProtoMessage() {}
 
-func (x *DeleteHabitResponse) ProtoReflect() protoreflect.Message {
+func (x *DeactivateHabitResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_habit_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -609,12 +609,100 @@ func (x *DeleteHabitResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteHabitResponse.ProtoReflect.Descriptor instead.
-func (*DeleteHabitResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use DeactivateHabitResponse.ProtoReflect.Descriptor instead.
+func (*DeactivateHabitResponse) Descriptor() ([]byte, []int) {
 	return file_habit_service_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *DeleteHabitResponse) GetSuccess() bool {
+func (x *DeactivateHabitResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type ActivateHabitRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ActivateHabitRequest) Reset() {
+	*x = ActivateHabitRequest{}
+	mi := &file_habit_service_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ActivateHabitRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ActivateHabitRequest) ProtoMessage() {}
+
+func (x *ActivateHabitRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_habit_service_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ActivateHabitRequest.ProtoReflect.Descriptor instead.
+func (*ActivateHabitRequest) Descriptor() ([]byte, []int) {
+	return file_habit_service_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *ActivateHabitRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type ActivateHabitResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ActivateHabitResponse) Reset() {
+	*x = ActivateHabitResponse{}
+	mi := &file_habit_service_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ActivateHabitResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ActivateHabitResponse) ProtoMessage() {}
+
+func (x *ActivateHabitResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_habit_service_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ActivateHabitResponse.ProtoReflect.Descriptor instead.
+func (*ActivateHabitResponse) Descriptor() ([]byte, []int) {
+	return file_habit_service_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *ActivateHabitResponse) GetSuccess() bool {
 	if x != nil {
 		return x.Success
 	}
@@ -631,7 +719,7 @@ type SetWeeklyDaysRequest struct {
 
 func (x *SetWeeklyDaysRequest) Reset() {
 	*x = SetWeeklyDaysRequest{}
-	mi := &file_habit_service_proto_msgTypes[12]
+	mi := &file_habit_service_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -643,7 +731,7 @@ func (x *SetWeeklyDaysRequest) String() string {
 func (*SetWeeklyDaysRequest) ProtoMessage() {}
 
 func (x *SetWeeklyDaysRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_habit_service_proto_msgTypes[12]
+	mi := &file_habit_service_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -656,7 +744,7 @@ func (x *SetWeeklyDaysRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetWeeklyDaysRequest.ProtoReflect.Descriptor instead.
 func (*SetWeeklyDaysRequest) Descriptor() ([]byte, []int) {
-	return file_habit_service_proto_rawDescGZIP(), []int{12}
+	return file_habit_service_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *SetWeeklyDaysRequest) GetHabitId() int32 {
@@ -682,7 +770,7 @@ type SetWeeklyDaysResponse struct {
 
 func (x *SetWeeklyDaysResponse) Reset() {
 	*x = SetWeeklyDaysResponse{}
-	mi := &file_habit_service_proto_msgTypes[13]
+	mi := &file_habit_service_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -694,7 +782,7 @@ func (x *SetWeeklyDaysResponse) String() string {
 func (*SetWeeklyDaysResponse) ProtoMessage() {}
 
 func (x *SetWeeklyDaysResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_habit_service_proto_msgTypes[13]
+	mi := &file_habit_service_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -707,7 +795,7 @@ func (x *SetWeeklyDaysResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetWeeklyDaysResponse.ProtoReflect.Descriptor instead.
 func (*SetWeeklyDaysResponse) Descriptor() ([]byte, []int) {
-	return file_habit_service_proto_rawDescGZIP(), []int{13}
+	return file_habit_service_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *SetWeeklyDaysResponse) GetHabit() *Habit {
@@ -727,7 +815,7 @@ type SetMonthlyDaysRequest struct {
 
 func (x *SetMonthlyDaysRequest) Reset() {
 	*x = SetMonthlyDaysRequest{}
-	mi := &file_habit_service_proto_msgTypes[14]
+	mi := &file_habit_service_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -739,7 +827,7 @@ func (x *SetMonthlyDaysRequest) String() string {
 func (*SetMonthlyDaysRequest) ProtoMessage() {}
 
 func (x *SetMonthlyDaysRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_habit_service_proto_msgTypes[14]
+	mi := &file_habit_service_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -752,7 +840,7 @@ func (x *SetMonthlyDaysRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetMonthlyDaysRequest.ProtoReflect.Descriptor instead.
 func (*SetMonthlyDaysRequest) Descriptor() ([]byte, []int) {
-	return file_habit_service_proto_rawDescGZIP(), []int{14}
+	return file_habit_service_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *SetMonthlyDaysRequest) GetHabitId() int32 {
@@ -778,7 +866,7 @@ type SetMonthlyDaysResponse struct {
 
 func (x *SetMonthlyDaysResponse) Reset() {
 	*x = SetMonthlyDaysResponse{}
-	mi := &file_habit_service_proto_msgTypes[15]
+	mi := &file_habit_service_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -790,7 +878,7 @@ func (x *SetMonthlyDaysResponse) String() string {
 func (*SetMonthlyDaysResponse) ProtoMessage() {}
 
 func (x *SetMonthlyDaysResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_habit_service_proto_msgTypes[15]
+	mi := &file_habit_service_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -803,7 +891,7 @@ func (x *SetMonthlyDaysResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetMonthlyDaysResponse.ProtoReflect.Descriptor instead.
 func (*SetMonthlyDaysResponse) Descriptor() ([]byte, []int) {
-	return file_habit_service_proto_rawDescGZIP(), []int{15}
+	return file_habit_service_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *SetMonthlyDaysResponse) GetHabit() *Habit {
@@ -822,7 +910,7 @@ type IsScheduledTodayRequest struct {
 
 func (x *IsScheduledTodayRequest) Reset() {
 	*x = IsScheduledTodayRequest{}
-	mi := &file_habit_service_proto_msgTypes[16]
+	mi := &file_habit_service_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -834,7 +922,7 @@ func (x *IsScheduledTodayRequest) String() string {
 func (*IsScheduledTodayRequest) ProtoMessage() {}
 
 func (x *IsScheduledTodayRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_habit_service_proto_msgTypes[16]
+	mi := &file_habit_service_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -847,7 +935,7 @@ func (x *IsScheduledTodayRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IsScheduledTodayRequest.ProtoReflect.Descriptor instead.
 func (*IsScheduledTodayRequest) Descriptor() ([]byte, []int) {
-	return file_habit_service_proto_rawDescGZIP(), []int{16}
+	return file_habit_service_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *IsScheduledTodayRequest) GetHabitId() int32 {
@@ -866,7 +954,7 @@ type IsScheduledTodayResponse struct {
 
 func (x *IsScheduledTodayResponse) Reset() {
 	*x = IsScheduledTodayResponse{}
-	mi := &file_habit_service_proto_msgTypes[17]
+	mi := &file_habit_service_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -878,7 +966,7 @@ func (x *IsScheduledTodayResponse) String() string {
 func (*IsScheduledTodayResponse) ProtoMessage() {}
 
 func (x *IsScheduledTodayResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_habit_service_proto_msgTypes[17]
+	mi := &file_habit_service_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -891,7 +979,7 @@ func (x *IsScheduledTodayResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IsScheduledTodayResponse.ProtoReflect.Descriptor instead.
 func (*IsScheduledTodayResponse) Descriptor() ([]byte, []int) {
-	return file_habit_service_proto_rawDescGZIP(), []int{17}
+	return file_habit_service_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *IsScheduledTodayResponse) GetScheduled() bool {
@@ -935,10 +1023,14 @@ const file_habit_service_proto_rawDesc = "" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x12\n" +
 	"\x04goal\x18\x04 \x01(\tR\x04goal\"B\n" +
 	"\x13UpdateHabitResponse\x12+\n" +
-	"\x05habit\x18\x01 \x01(\v2\x15.hobbits.api.v1.HabitR\x05habit\"$\n" +
-	"\x12DeleteHabitRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\"/\n" +
-	"\x13DeleteHabitResponse\x12\x18\n" +
+	"\x05habit\x18\x01 \x01(\v2\x15.hobbits.api.v1.HabitR\x05habit\"(\n" +
+	"\x16DeactivateHabitRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\"3\n" +
+	"\x17DeactivateHabitResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"&\n" +
+	"\x14ActivateHabitRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\"1\n" +
+	"\x15ActivateHabitResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"E\n" +
 	"\x14SetWeeklyDaysRequest\x12\x19\n" +
 	"\bhabit_id\x18\x01 \x01(\x05R\ahabitId\x12\x12\n" +
@@ -953,14 +1045,15 @@ const file_habit_service_proto_rawDesc = "" +
 	"\x17IsScheduledTodayRequest\x12\x19\n" +
 	"\bhabit_id\x18\x01 \x01(\x05R\ahabitId\"8\n" +
 	"\x18IsScheduledTodayResponse\x12\x1c\n" +
-	"\tscheduled\x18\x01 \x01(\bR\tscheduled2\xcd\x06\n" +
+	"\tscheduled\x18\x01 \x01(\bR\tscheduled2\xb7\a\n" +
 	"\fHabitService\x12V\n" +
 	"\vCreateHabit\x12\".hobbits.api.v1.CreateHabitRequest\x1a#.hobbits.api.v1.CreateHabitResponse\x12M\n" +
 	"\bGetHabit\x12\x1f.hobbits.api.v1.GetHabitRequest\x1a .hobbits.api.v1.GetHabitResponse\x12\\\n" +
 	"\rGetUserHabits\x12$.hobbits.api.v1.GetUserHabitsRequest\x1a%.hobbits.api.v1.GetUserHabitsResponse\x12b\n" +
 	"\x0fGetActiveHabits\x12&.hobbits.api.v1.GetActiveHabitsRequest\x1a'.hobbits.api.v1.GetActiveHabitsResponse\x12V\n" +
-	"\vUpdateHabit\x12\".hobbits.api.v1.UpdateHabitRequest\x1a#.hobbits.api.v1.UpdateHabitResponse\x12V\n" +
-	"\vDeleteHabit\x12\".hobbits.api.v1.DeleteHabitRequest\x1a#.hobbits.api.v1.DeleteHabitResponse\x12\\\n" +
+	"\vUpdateHabit\x12\".hobbits.api.v1.UpdateHabitRequest\x1a#.hobbits.api.v1.UpdateHabitResponse\x12b\n" +
+	"\x0fDeactivateHabit\x12&.hobbits.api.v1.DeactivateHabitRequest\x1a'.hobbits.api.v1.DeactivateHabitResponse\x12\\\n" +
+	"\rActivateHabit\x12$.hobbits.api.v1.ActivateHabitRequest\x1a%.hobbits.api.v1.ActivateHabitResponse\x12\\\n" +
 	"\rSetWeeklyDays\x12$.hobbits.api.v1.SetWeeklyDaysRequest\x1a%.hobbits.api.v1.SetWeeklyDaysResponse\x12_\n" +
 	"\x0eSetMonthlyDays\x12%.hobbits.api.v1.SetMonthlyDaysRequest\x1a&.hobbits.api.v1.SetMonthlyDaysResponse\x12e\n" +
 	"\x10IsScheduledToday\x12'.hobbits.api.v1.IsScheduledTodayRequest\x1a(.hobbits.api.v1.IsScheduledTodayResponseB%Z#HobitsService/gen/go/hobbits/api/v1b\x06proto3"
@@ -977,7 +1070,7 @@ func file_habit_service_proto_rawDescGZIP() []byte {
 	return file_habit_service_proto_rawDescData
 }
 
-var file_habit_service_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var file_habit_service_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_habit_service_proto_goTypes = []any{
 	(*CreateHabitRequest)(nil),       // 0: hobbits.api.v1.CreateHabitRequest
 	(*CreateHabitResponse)(nil),      // 1: hobbits.api.v1.CreateHabitResponse
@@ -989,44 +1082,48 @@ var file_habit_service_proto_goTypes = []any{
 	(*GetActiveHabitsResponse)(nil),  // 7: hobbits.api.v1.GetActiveHabitsResponse
 	(*UpdateHabitRequest)(nil),       // 8: hobbits.api.v1.UpdateHabitRequest
 	(*UpdateHabitResponse)(nil),      // 9: hobbits.api.v1.UpdateHabitResponse
-	(*DeleteHabitRequest)(nil),       // 10: hobbits.api.v1.DeleteHabitRequest
-	(*DeleteHabitResponse)(nil),      // 11: hobbits.api.v1.DeleteHabitResponse
-	(*SetWeeklyDaysRequest)(nil),     // 12: hobbits.api.v1.SetWeeklyDaysRequest
-	(*SetWeeklyDaysResponse)(nil),    // 13: hobbits.api.v1.SetWeeklyDaysResponse
-	(*SetMonthlyDaysRequest)(nil),    // 14: hobbits.api.v1.SetMonthlyDaysRequest
-	(*SetMonthlyDaysResponse)(nil),   // 15: hobbits.api.v1.SetMonthlyDaysResponse
-	(*IsScheduledTodayRequest)(nil),  // 16: hobbits.api.v1.IsScheduledTodayRequest
-	(*IsScheduledTodayResponse)(nil), // 17: hobbits.api.v1.IsScheduledTodayResponse
-	(*Habit)(nil),                    // 18: hobbits.api.v1.Habit
+	(*DeactivateHabitRequest)(nil),   // 10: hobbits.api.v1.DeactivateHabitRequest
+	(*DeactivateHabitResponse)(nil),  // 11: hobbits.api.v1.DeactivateHabitResponse
+	(*ActivateHabitRequest)(nil),     // 12: hobbits.api.v1.ActivateHabitRequest
+	(*ActivateHabitResponse)(nil),    // 13: hobbits.api.v1.ActivateHabitResponse
+	(*SetWeeklyDaysRequest)(nil),     // 14: hobbits.api.v1.SetWeeklyDaysRequest
+	(*SetWeeklyDaysResponse)(nil),    // 15: hobbits.api.v1.SetWeeklyDaysResponse
+	(*SetMonthlyDaysRequest)(nil),    // 16: hobbits.api.v1.SetMonthlyDaysRequest
+	(*SetMonthlyDaysResponse)(nil),   // 17: hobbits.api.v1.SetMonthlyDaysResponse
+	(*IsScheduledTodayRequest)(nil),  // 18: hobbits.api.v1.IsScheduledTodayRequest
+	(*IsScheduledTodayResponse)(nil), // 19: hobbits.api.v1.IsScheduledTodayResponse
+	(*Habit)(nil),                    // 20: hobbits.api.v1.Habit
 }
 var file_habit_service_proto_depIdxs = []int32{
-	18, // 0: hobbits.api.v1.CreateHabitResponse.habit:type_name -> hobbits.api.v1.Habit
-	18, // 1: hobbits.api.v1.GetHabitResponse.habit:type_name -> hobbits.api.v1.Habit
-	18, // 2: hobbits.api.v1.GetUserHabitsResponse.habits:type_name -> hobbits.api.v1.Habit
-	18, // 3: hobbits.api.v1.GetActiveHabitsResponse.habits:type_name -> hobbits.api.v1.Habit
-	18, // 4: hobbits.api.v1.UpdateHabitResponse.habit:type_name -> hobbits.api.v1.Habit
-	18, // 5: hobbits.api.v1.SetWeeklyDaysResponse.habit:type_name -> hobbits.api.v1.Habit
-	18, // 6: hobbits.api.v1.SetMonthlyDaysResponse.habit:type_name -> hobbits.api.v1.Habit
+	20, // 0: hobbits.api.v1.CreateHabitResponse.habit:type_name -> hobbits.api.v1.Habit
+	20, // 1: hobbits.api.v1.GetHabitResponse.habit:type_name -> hobbits.api.v1.Habit
+	20, // 2: hobbits.api.v1.GetUserHabitsResponse.habits:type_name -> hobbits.api.v1.Habit
+	20, // 3: hobbits.api.v1.GetActiveHabitsResponse.habits:type_name -> hobbits.api.v1.Habit
+	20, // 4: hobbits.api.v1.UpdateHabitResponse.habit:type_name -> hobbits.api.v1.Habit
+	20, // 5: hobbits.api.v1.SetWeeklyDaysResponse.habit:type_name -> hobbits.api.v1.Habit
+	20, // 6: hobbits.api.v1.SetMonthlyDaysResponse.habit:type_name -> hobbits.api.v1.Habit
 	0,  // 7: hobbits.api.v1.HabitService.CreateHabit:input_type -> hobbits.api.v1.CreateHabitRequest
 	2,  // 8: hobbits.api.v1.HabitService.GetHabit:input_type -> hobbits.api.v1.GetHabitRequest
 	4,  // 9: hobbits.api.v1.HabitService.GetUserHabits:input_type -> hobbits.api.v1.GetUserHabitsRequest
 	6,  // 10: hobbits.api.v1.HabitService.GetActiveHabits:input_type -> hobbits.api.v1.GetActiveHabitsRequest
 	8,  // 11: hobbits.api.v1.HabitService.UpdateHabit:input_type -> hobbits.api.v1.UpdateHabitRequest
-	10, // 12: hobbits.api.v1.HabitService.DeleteHabit:input_type -> hobbits.api.v1.DeleteHabitRequest
-	12, // 13: hobbits.api.v1.HabitService.SetWeeklyDays:input_type -> hobbits.api.v1.SetWeeklyDaysRequest
-	14, // 14: hobbits.api.v1.HabitService.SetMonthlyDays:input_type -> hobbits.api.v1.SetMonthlyDaysRequest
-	16, // 15: hobbits.api.v1.HabitService.IsScheduledToday:input_type -> hobbits.api.v1.IsScheduledTodayRequest
-	1,  // 16: hobbits.api.v1.HabitService.CreateHabit:output_type -> hobbits.api.v1.CreateHabitResponse
-	3,  // 17: hobbits.api.v1.HabitService.GetHabit:output_type -> hobbits.api.v1.GetHabitResponse
-	5,  // 18: hobbits.api.v1.HabitService.GetUserHabits:output_type -> hobbits.api.v1.GetUserHabitsResponse
-	7,  // 19: hobbits.api.v1.HabitService.GetActiveHabits:output_type -> hobbits.api.v1.GetActiveHabitsResponse
-	9,  // 20: hobbits.api.v1.HabitService.UpdateHabit:output_type -> hobbits.api.v1.UpdateHabitResponse
-	11, // 21: hobbits.api.v1.HabitService.DeleteHabit:output_type -> hobbits.api.v1.DeleteHabitResponse
-	13, // 22: hobbits.api.v1.HabitService.SetWeeklyDays:output_type -> hobbits.api.v1.SetWeeklyDaysResponse
-	15, // 23: hobbits.api.v1.HabitService.SetMonthlyDays:output_type -> hobbits.api.v1.SetMonthlyDaysResponse
-	17, // 24: hobbits.api.v1.HabitService.IsScheduledToday:output_type -> hobbits.api.v1.IsScheduledTodayResponse
-	16, // [16:25] is the sub-list for method output_type
-	7,  // [7:16] is the sub-list for method input_type
+	10, // 12: hobbits.api.v1.HabitService.DeactivateHabit:input_type -> hobbits.api.v1.DeactivateHabitRequest
+	12, // 13: hobbits.api.v1.HabitService.ActivateHabit:input_type -> hobbits.api.v1.ActivateHabitRequest
+	14, // 14: hobbits.api.v1.HabitService.SetWeeklyDays:input_type -> hobbits.api.v1.SetWeeklyDaysRequest
+	16, // 15: hobbits.api.v1.HabitService.SetMonthlyDays:input_type -> hobbits.api.v1.SetMonthlyDaysRequest
+	18, // 16: hobbits.api.v1.HabitService.IsScheduledToday:input_type -> hobbits.api.v1.IsScheduledTodayRequest
+	1,  // 17: hobbits.api.v1.HabitService.CreateHabit:output_type -> hobbits.api.v1.CreateHabitResponse
+	3,  // 18: hobbits.api.v1.HabitService.GetHabit:output_type -> hobbits.api.v1.GetHabitResponse
+	5,  // 19: hobbits.api.v1.HabitService.GetUserHabits:output_type -> hobbits.api.v1.GetUserHabitsResponse
+	7,  // 20: hobbits.api.v1.HabitService.GetActiveHabits:output_type -> hobbits.api.v1.GetActiveHabitsResponse
+	9,  // 21: hobbits.api.v1.HabitService.UpdateHabit:output_type -> hobbits.api.v1.UpdateHabitResponse
+	11, // 22: hobbits.api.v1.HabitService.DeactivateHabit:output_type -> hobbits.api.v1.DeactivateHabitResponse
+	13, // 23: hobbits.api.v1.HabitService.ActivateHabit:output_type -> hobbits.api.v1.ActivateHabitResponse
+	15, // 24: hobbits.api.v1.HabitService.SetWeeklyDays:output_type -> hobbits.api.v1.SetWeeklyDaysResponse
+	17, // 25: hobbits.api.v1.HabitService.SetMonthlyDays:output_type -> hobbits.api.v1.SetMonthlyDaysResponse
+	19, // 26: hobbits.api.v1.HabitService.IsScheduledToday:output_type -> hobbits.api.v1.IsScheduledTodayResponse
+	17, // [17:27] is the sub-list for method output_type
+	7,  // [7:17] is the sub-list for method input_type
 	7,  // [7:7] is the sub-list for extension type_name
 	7,  // [7:7] is the sub-list for extension extendee
 	0,  // [0:7] is the sub-list for field type_name
@@ -1044,7 +1141,7 @@ func file_habit_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_habit_service_proto_rawDesc), len(file_habit_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   18,
+			NumMessages:   20,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

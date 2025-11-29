@@ -37,7 +37,7 @@ func FormatHabitList(habits []string) string {
 }
 
 // FormatHabitDetail форматирует подробную информацию о привычке
-func FormatHabitDetail(name string, frequency string, streak, bestStreak, completed, total int) string {
+func FormatHabitDetail(name string, frequency string, streak, bestStreak, completed, total int, goal string) string {
 	frequencyStr := map[string]string{
 		"daily":   "📅 Ежедневно",
 		"weekly":  "📆 Еженедельно",
@@ -49,14 +49,21 @@ func FormatHabitDetail(name string, frequency string, streak, bestStreak, comple
 		streakEmoji = "❄️"
 	}
 
-	return fmt.Sprintf(`*%s*
+	result := fmt.Sprintf(`*%s*
 
 Частота: %s
 %s Текущая серия: %d дней
 🏆 Лучшая серия: %d дней
-✅ Выполнено: %d/%d раз
+✅ Выполнено: %d/%d раз`, name, frequencyStr, streakEmoji, streak, bestStreak, completed, total)
 
-Отличная работа! Продолжайте в том же духе!`, name, frequencyStr, streakEmoji, streak, bestStreak, completed, total)
+	// Добавляем цель если она есть
+	if goal != "" {
+		result += fmt.Sprintf("\n\n🎯 *Цель:* %s", goal)
+	}
+
+	result += "\n\nОтличная работа! Продолжайте в том же духе!"
+
+	return result
 }
 
 // FormatTodayReminders форматирует напоминания на сегодня

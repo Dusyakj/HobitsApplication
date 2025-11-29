@@ -134,15 +134,16 @@ type Habit struct {
 	Frequency         string                 `protobuf:"bytes,6,opt,name=frequency,proto3" json:"frequency,omitempty"`                        // "daily", "weekly", "monthly"
 	WeeklyDays        string                 `protobuf:"bytes,7,opt,name=weekly_days,json=weeklyDays,proto3" json:"weekly_days,omitempty"`    // "1,3,5" for weekly
 	MonthlyDays       string                 `protobuf:"bytes,8,opt,name=monthly_days,json=monthlyDays,proto3" json:"monthly_days,omitempty"` // "1,15,28" for monthly
-	CurrentStreak     int32                  `protobuf:"varint,9,opt,name=current_streak,json=currentStreak,proto3" json:"current_streak,omitempty"`
-	BestStreak        int32                  `protobuf:"varint,10,opt,name=best_streak,json=bestStreak,proto3" json:"best_streak,omitempty"`
-	LastCompletedDate *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=last_completed_date,json=lastCompletedDate,proto3" json:"last_completed_date,omitempty"`
-	LastCheckedDate   *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=last_checked_date,json=lastCheckedDate,proto3" json:"last_checked_date,omitempty"`
-	IsActive          bool                   `protobuf:"varint,13,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
-	IsCompleted       bool                   `protobuf:"varint,14,opt,name=is_completed,json=isCompleted,proto3" json:"is_completed,omitempty"`
-	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt         *timestamppb.Timestamp `protobuf:"bytes,16,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	CompletedAt       *timestamppb.Timestamp `protobuf:"bytes,17,opt,name=completed_at,json=completedAt,proto3" json:"completed_at,omitempty"`
+	StreakGoal        int32                  `protobuf:"varint,9,opt,name=streak_goal,json=streakGoal,proto3" json:"streak_goal,omitempty"`
+	CurrentStreak     int32                  `protobuf:"varint,10,opt,name=current_streak,json=currentStreak,proto3" json:"current_streak,omitempty"`
+	BestStreak        int32                  `protobuf:"varint,11,opt,name=best_streak,json=bestStreak,proto3" json:"best_streak,omitempty"`
+	LastCompletedDate *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=last_completed_date,json=lastCompletedDate,proto3" json:"last_completed_date,omitempty"`
+	LastCheckedDate   *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=last_checked_date,json=lastCheckedDate,proto3" json:"last_checked_date,omitempty"`
+	IsActive          bool                   `protobuf:"varint,14,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
+	IsCompleted       bool                   `protobuf:"varint,15,opt,name=is_completed,json=isCompleted,proto3" json:"is_completed,omitempty"`
+	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,16,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt         *timestamppb.Timestamp `protobuf:"bytes,17,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	CompletedAt       *timestamppb.Timestamp `protobuf:"bytes,18,opt,name=completed_at,json=completedAt,proto3" json:"completed_at,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -231,6 +232,13 @@ func (x *Habit) GetMonthlyDays() string {
 		return x.MonthlyDays
 	}
 	return ""
+}
+
+func (x *Habit) GetStreakGoal() int32 {
+	if x != nil {
+		return x.StreakGoal
+	}
+	return 0
 }
 
 func (x *Habit) GetCurrentStreak() int32 {
@@ -621,7 +629,7 @@ const file_common_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xad\x05\n" +
+	"updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xce\x05\n" +
 	"\x05Habit\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x05R\x06userId\x12\x12\n" +
@@ -631,20 +639,22 @@ const file_common_proto_rawDesc = "" +
 	"\tfrequency\x18\x06 \x01(\tR\tfrequency\x12\x1f\n" +
 	"\vweekly_days\x18\a \x01(\tR\n" +
 	"weeklyDays\x12!\n" +
-	"\fmonthly_days\x18\b \x01(\tR\vmonthlyDays\x12%\n" +
-	"\x0ecurrent_streak\x18\t \x01(\x05R\rcurrentStreak\x12\x1f\n" +
-	"\vbest_streak\x18\n" +
-	" \x01(\x05R\n" +
+	"\fmonthly_days\x18\b \x01(\tR\vmonthlyDays\x12\x1f\n" +
+	"\vstreak_goal\x18\t \x01(\x05R\n" +
+	"streakGoal\x12%\n" +
+	"\x0ecurrent_streak\x18\n" +
+	" \x01(\x05R\rcurrentStreak\x12\x1f\n" +
+	"\vbest_streak\x18\v \x01(\x05R\n" +
 	"bestStreak\x12J\n" +
-	"\x13last_completed_date\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\x11lastCompletedDate\x12F\n" +
-	"\x11last_checked_date\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\x0flastCheckedDate\x12\x1b\n" +
-	"\tis_active\x18\r \x01(\bR\bisActive\x12!\n" +
-	"\fis_completed\x18\x0e \x01(\bR\visCompleted\x129\n" +
+	"\x13last_completed_date\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\x11lastCompletedDate\x12F\n" +
+	"\x11last_checked_date\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\x0flastCheckedDate\x12\x1b\n" +
+	"\tis_active\x18\x0e \x01(\bR\bisActive\x12!\n" +
+	"\fis_completed\x18\x0f \x01(\bR\visCompleted\x129\n" +
 	"\n" +
-	"created_at\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"created_at\x18\x10 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x10 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12=\n" +
-	"\fcompleted_at\x18\x11 \x01(\v2\x1a.google.protobuf.TimestampR\vcompletedAt\"\xc2\x01\n" +
+	"updated_at\x18\x11 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12=\n" +
+	"\fcompleted_at\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\vcompletedAt\"\xc2\x01\n" +
 	"\bHabitLog\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x19\n" +
 	"\bhabit_id\x18\x02 \x01(\x05R\ahabitId\x12\x17\n" +

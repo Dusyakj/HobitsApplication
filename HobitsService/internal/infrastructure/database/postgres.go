@@ -2,6 +2,7 @@ package database
 
 import (
 	"HobitsService/internal/config"
+	"HobitsService/internal/logger"
 	"context"
 	"fmt"
 	"github.com/golang-migrate/migrate/v4"
@@ -10,6 +11,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"os"
 	"path/filepath"
+	"runtime"
 )
 
 type Database struct {
@@ -19,6 +21,7 @@ type Database struct {
 func New(ctx context.Context, cfg *config.PostgresConfig) (*Database, error) {
 	dsn := fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=disable",
 		cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.DBName)
+	logger.Debug(dsn)
 
 	pool, err := pgxpool.New(ctx, dsn)
 	if err != nil {
@@ -34,7 +37,7 @@ func New(ctx context.Context, cfg *config.PostgresConfig) (*Database, error) {
 
 func (db *Database) RunMigrations(migrationsPath string) error {
 	if migrationsPath == "" {
-		migrationsPath = "file://migrations"
+		migrationsPath = "migrations"
 	}
 
 	absPath, err := filepath.Abs(migrationsPath)
@@ -46,12 +49,15 @@ func (db *Database) RunMigrations(migrationsPath string) error {
 		return fmt.Errorf("migrations directory does not exist: %s", absPath)
 	}
 
-	absPath = filepath.ToSlash(absPath)
-	if len(absPath) > 1 && absPath[1] == ':' {
-		absPath = "/" + absPath
+	// Создаем правильный file:// URL для всех платформ
+	var sourceURL string
+	if runtime.GOOS == "windows" {
+		// На Windows: C:\path -> file:///C:/path
+		sourceURL = "file:///" + filepath.ToSlash(absPath)
+	} else {
+		// На Unix/Linux: /path -> file:///path
+		sourceURL = "file://" + absPath
 	}
-
-	sourceURL := "file://" + absPath
 
 	config := db.Pool.Config()
 	dsn := config.ConnString()

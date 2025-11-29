@@ -17,7 +17,6 @@ type Server struct {
 	server *grpc.Server
 	port   int
 
-	// Services
 	userService     *service.UserService
 	habitService    *service.HabitService
 	logService      *service.LogService
@@ -43,23 +42,19 @@ func NewServer(
 
 // Start запускает gRPC сервер
 func (s *Server) Start() error {
-	// Создаем gRPC сервер
 	s.server = grpc.NewServer()
 
-	// Регистрируем сервисы
 	api.RegisterUserServiceServer(s.server, NewUserServiceServer(s.userService))
 	api.RegisterHabitServiceServer(s.server, NewHabitServiceServer(s.habitService))
 	api.RegisterLogServiceServer(s.server, NewLogServiceServer(s.logService))
-	api.RegisterReminderServiceServer(s.server, NewReminderServiceServer(s.reminderService))
+	api.RegisterReminderServiceServer(s.server, NewReminderServiceServer(s.reminderService, s.habitService))
 
-	// Слушаем на порту
 	addr := fmt.Sprintf(":%d", s.port)
 	listener, err := net.Listen("tcp", addr)
 	if err != nil {
 		return fmt.Errorf("failed to listen on %s: %w", addr, err)
 	}
 
-	// Запускаем в горутине
 	go func() {
 		logger.Info("gRPC server started", zap.Int("port", s.port))
 		if err := s.server.Serve(listener); err != nil {
